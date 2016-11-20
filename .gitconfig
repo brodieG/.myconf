@@ -1,0 +1,12 @@
+[user]
+  email = brodieG@users.noreply.github.com
+  name = brodieG
+[filter "media"]
+	clean = git-media-clean %f
+	smudge = git-media-smudge %f
+[core]
+	excludesfile = /Users/milberg/.gitignore_global
+[color]
+	ui = true
+[alias]
+	lg = log --pretty=format:\"%C(auto)%h %<(40,trunc)%s %C(blue) %<(6,trunc)%cd%C(auto)%d%Creset\" --graph --all --date=relative

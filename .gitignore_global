@@ -1,0 +1,13 @@
+.Rproj.user
+.Rhistory
+.RData
+.*
+!.travis.yml
+!.Rbuildignore
+*.Rproj
+*.tar.gz
+*.o
+*.so
+*.sw?
+__Scratch__
+scratch.R
