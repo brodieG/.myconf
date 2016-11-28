@@ -29,7 +29,8 @@ sudo rm /opt/vagrant/embedded/bin/curl  # to resolve issue
 vagrant box add ubuntu/trusty64
 mkdir ~/vagrant
 cd ~/vagrant
-vagrant init  # not sure if this is done at the right spot
+# At some point needed to do `vagrant init ubuntu/trusty64` for this to work
+vagrant init
 
 # Copy links in ~/.myconf/NOTES.md
 ```

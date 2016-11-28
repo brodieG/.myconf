@@ -33,30 +33,4 @@ apt-cache policy docker-engine
 apt-get install -y linux-image-extra-$(uname -r) linux-image-extra-virtual
 apt-get install -y docker-engine
 
-# service docker start
-
-# Rocker, maybe we only need drd?  r-devel is a lot of MBs and not at all clear
-# it is actually needed to get the actual rdevel version
-
-# docker pull rocker/r-devel  # Doesn't seem needed
-docker pull rocker/drd
-
-## The following steps need to be run manually; also, can repeat process and
-## keep updating images via commits
-
-sudo docker run -ti rocker/drd /bin/bash
-apt-get install libssl-dev
-apt-get install libssh2-1-dev
-apt-get install git
-apt-get install vim-gtk  # normal vim doesn't have +clipboard
-
-git clone 
-# exit
-# sudo docker ps -a   # find the relevant container, and commit
-# sudo docker commit -m "Added libssl" f3e0a40cd92d brodie/drd
-#
-# # launch Dev version
-# sudo docker run -ti brodie/drd /bin/bash
-# sudo docker run --rm -ti brodie/drd RD
-
-# sudo docker run -ti brodie/drd /bin/bash
+# see notes/docker.md for more docker stuff
