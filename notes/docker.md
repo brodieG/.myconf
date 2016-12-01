@@ -15,7 +15,6 @@ apt-get install -y vim-gtk  # normal vim doesn't have +clipboard
 
 mkdir ~/.vimswap
 mkdir ~/.vim
-# git clone git@github.com:brodieG/vim.git ~/.vim
 git clone --recursive https://github.com/brodieG/vim.git ~/.vim
 echo "source ~/.vim/vimrc" > ~/.vimrc
 
