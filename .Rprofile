@@ -28,4 +28,4 @@ dataStr <- function(fun=function(x) TRUE)
 ) ) )
 
 # options(diffobj.brightness=c("neutral", ansi256="dark"))
-
+options(unitizer.state='recommended')
