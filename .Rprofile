@@ -1,4 +1,5 @@
 options(repos = c(CRAN="http://cran.r-project.org"))
+options(unitizer.state='recommended')
 di <- function(x = ".") {
   dirname <- basename(normalizePath(x))
   if(
