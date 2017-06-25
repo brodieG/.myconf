@@ -10,3 +10,4 @@
 	ui = true
 [alias]
 	lg = log --pretty=format:\"%C(auto)%h %<(40,trunc)%s %C(blue) %<(6,trunc)%cd%C(auto)%d%Creset\" --graph --all --date=relative
+        ad = !git add -u && git reset -- *.rds
