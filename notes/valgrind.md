@@ -10,5 +10,5 @@ Got some warnings about not being able to write to /usr/local/bin.  Looked
 around, and settled on:
 
 ```
-sudo chown -R milberg:admin /usr/local/bin
+sudo chown -R brodie:admin /usr/local/bin
 ```
