@@ -1,0 +1,5 @@
+# # setting CC to gcc just seems to alias back to clang
+# CC = gcc
+# CFLAGS = -O2 -Wall -std=gnu99
+
+CFLAGS += -Wextra -pedantic -Wuninitialized -Wstrict-overflow
