@@ -2,4 +2,6 @@
 # CC = gcc
 # CFLAGS = -O2 -Wall -std=gnu99
 
-CFLAGS += -Wextra -pedantic -Wuninitialized -Wstrict-overflow
+# CFLAGS += -O3
+
+# CFLAGS += -Wextra -pedantic -Wuninitialized -Wstrict-overflow
