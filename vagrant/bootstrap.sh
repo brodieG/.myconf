@@ -19,6 +19,10 @@ apt-get install -y git  # needs sudo?
 apt-get install -y libssl0.9.8
 apt-get install -y libcurl4-openssl-dev
 
+# valgrind, note this was installed manually
+
+apt-get install -y valgrind
+
 # Docker set-up https://docs.docker.com/engine/installation/linux/ubuntulinux/
 
 apt-get install -y apt-transport-https ca-certificates
