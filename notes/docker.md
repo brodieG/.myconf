@@ -33,6 +33,13 @@ sudo docker run -ti brodie/drd /bin/bash
 RD  # for devel R version once in docker image
 ```
 
+Note, possible alternative to the commits [from SO](https://stackoverflow.com/a/19616598/2725969):
+
+```
+sudo docker start 80cdfdd00f76 # restart it in the background
+sudo docker attach 80cdfdd00f76 # reattach the terminal & stdin>
+```
+
 # Deleting images
 
 ```
@@ -45,3 +52,11 @@ sudo docker stop $(sudo docker ps -a -q)
 sudo docker rm $(sudo docker ps -a -q)
 sudo docker rmi $(sudo docker images -a -q)
 ```
+
+# Updating drd
+
+```
+sudo docker pull rocker/drd  # Development version
+```
+
+Unfortunately this doesn't automatically update our image...

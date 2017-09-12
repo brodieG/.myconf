@@ -38,3 +38,13 @@ apt-get install -y linux-image-extra-$(uname -r) linux-image-extra-virtual
 apt-get install -y docker-engine
 
 # see notes/docker.md for more docker stuff
+
+# Repository setup, after clone step copied from notes
+
+git clone https://github.com/brodieG/.myconf.git ~/.myconf
+
+ln -s ~/.myconf/.gitconfig ~/.gitconfig
+ln -s ~/.myconf/.gitignore_global ~/.gitignore_global
+ln -s ~/.myconf/.Rprofile ~/.Rprofile
+
+mkdir ~/repos
