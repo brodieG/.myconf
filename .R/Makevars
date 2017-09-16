@@ -4,4 +4,4 @@
 
 # CFLAGS += -O3
 
-# CFLAGS += -Wextra -pedantic -Wuninitialized -Wstrict-overflow
+# CFLAGS += -O0 -Wextra -pedantic -Wuninitialized -Wstrict-overflow
