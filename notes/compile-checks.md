@@ -3,7 +3,7 @@ List of checks to run on compiled packages
 ## Compilation Settings
 
 ```
-CFLAGS += -Wextra -pedantic -Wuninitialized -Wstrict-overflow
+CFLAGS += -Wextra -pedantic -Wuninitialized -Wstrict-overflow -fsanitize=alignment,bool,bounds,enum,float-cast-overflow,float-divide-by-zero,function,integer-divide-by-zero,nonnull-attribute,null,object-size,return,returns-nonnull-attribute,shift,signed-integer-overflow,unreachable,unsigned-integer-overflow,vla-bound,vptr
 ```
 
 ## Valgrind
@@ -15,7 +15,8 @@ R CMD check --use-valgrind <pkg.tar.ball>
 ```
 
 Also, potentially add an `-O0` to the compilation flags?  Have vague memory of
-that being recommended for the default `memcheck` tests.
+that being recommended for the default `memcheck` tests.  And it did seem to
+make more issues crop up in the latest test runs.
 
 ## Rchck
 
@@ -23,6 +24,19 @@ Easiest set up I've figured is to use the vagrant image [Tomas Kalibera
 provides](https://github.com/kalibera/rchk), although initial set-up takes quite
 a while.
 
+Instructions we used to check package `vetr` on branch issue43a:
+
+```
+cd ~
+wget https://codeload.github.com/brodieG/vetr/zip/issue43a
+unzip issue43a
+cd trunk/
+bin/R
+# remove.packages('vetr')
+# install.packages(repos=NULL, '~/vetr-issue43a')
+/opt/rchk/scripts/check_package.sh vetr
+less packages/lib/vetr/libs/vetr.so.bcheck
+```
 ## Rcnst
 
 Also a [Tomas Kalibera special](https://github.com/kalibera/cran-checks/blob/master/rcnst/README.txt).
