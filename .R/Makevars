@@ -2,9 +2,9 @@
 # CC = gcc
 # CFLAGS = -O2 -Wall -std=gnu99
 
-CFLAGS = -O2 -Wall -std=c99 -pedantic -Wextra -D_ANSI_SOURCE
-
-
+# # D_ANSI_SOURCE to help detect c99 non-compliance, but too strict as that is
+# # C 90
+# CFLAGS = -O2 -Wall -std=c99 -pedantic -Wextra -D_ANSI_SOURCE
 
 # CFLAGS += -O3
 
