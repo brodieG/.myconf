@@ -2,6 +2,10 @@
 # CC = gcc
 # CFLAGS = -O2 -Wall -std=gnu99
 
+CFLAGS = -O2 -Wall -std=c99 -pedantic -Wextra -D_ANSI_SOURCE
+
+
+
 # CFLAGS += -O3
 
-# CFLAGS += -Wextra -pedantic -Wuninitialized -Wstrict-overflow
+# CFLAGS += -O0 -Wextra -pedantic -Wuninitialized -Wstrict-overflow

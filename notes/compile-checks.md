@@ -15,8 +15,9 @@ R CMD check --use-valgrind <pkg.tar.ball>
 ```
 
 Also, potentially add an `-O0` to the compilation flags?  Have vague memory of
-that being recommended for the default `memcheck` tests.  And it did seem to
-make more issues crop up in the latest test runs.
+that being recommended for the default `memcheck` tests.  Actually, this does
+seem to make a difference as we detected some `memchr` access errors that were
+not showing up otherwise (those might be spurious though).
 
 ## Rchck
 
@@ -43,7 +44,7 @@ Also a [Tomas Kalibera special](https://github.com/kalibera/cran-checks/blob/mas
 
 ```
 env R_COMPILE_PKGS=1 R CMD build .
-env R_JIT_STRATEGY=4 R_CHECK_CONSTANTS=5 R CMD check <pkg.tar.ball>
+env R_JIT_STRATEGY=4 R_CHECK_CONSTANTS=5 R CMD check 
 
 # env R_COMPILE_PKGS=1 R_JIT_STRATEGY=4 R_CHECK_CONSTANTS=5 R
 ```

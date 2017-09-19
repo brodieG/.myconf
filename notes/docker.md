@@ -18,6 +18,19 @@ mkdir ~/.vim
 git clone --recursive https://github.com/brodieG/vim.git ~/.vim
 echo "source ~/.vim/vimrc" > ~/.vimrc
 
+```
+A simple isntall:
+```
+mkdir repos
+cd repos
+wget https://github.com/brodieG/<PKG>/archive/<BRANCH>.zip
+unzip <BRANCH>.zip
+```
+
+Or the following, but this installs a bunch of stuff (some of it needed to run
+the tests with R CMD check, e.g. `knitr`):
+
+```
 RDscript -e "install.packages(c('devtools', 'testthat', 'knitr', 'rmarkdown'))"
 ```
 
