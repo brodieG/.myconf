@@ -27,7 +27,8 @@ Easiest set up I've figured is to use the vagrant image [Tomas Kalibera
 provides](https://github.com/kalibera/rchk), although initial set-up takes quite
 a while.
 
-Instructions we used to check package `vetr` on branch issue43a:
+Instructions we used to check package `vetr` on branch issue43a, though remember
+to set up the environment for package checks as in the instructions.
 
 ```
 cd ~
