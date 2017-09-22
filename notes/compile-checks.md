@@ -2,6 +2,8 @@ List of checks to run on compiled packages
 
 ## Compilation Settings
 
+Err, don't quite recall what all these are, and why they are here.
+
 ```
 CFLAGS += -Wextra -pedantic -Wuninitialized -Wstrict-overflow -fsanitize=alignment,bool,bounds,enum,float-cast-overflow,float-divide-by-zero,function,integer-divide-by-zero,nonnull-attribute,null,object-size,return,returns-nonnull-attribute,shift,signed-integer-overflow,unreachable,unsigned-integer-overflow,vla-bound,vptr
 ```
@@ -38,6 +40,17 @@ bin/R
 /opt/rchk/scripts/check_package.sh vetr
 less packages/lib/vetr/libs/vetr.so.bcheck
 ```
+
+Also, at some point had to bring down RAM usage in the `rchk/image/config.yml`
+file:
+
+```
+# for 2G machine:
+vm_memory: 2048
+bcheck_max_states: 375000
+callocators_max_states: 250000
+```
+
 ## Rcnst
 
 Also a [Tomas Kalibera special](https://github.com/kalibera/cran-checks/blob/master/rcnst/README.txt).

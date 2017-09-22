@@ -49,8 +49,8 @@ RD  # for devel R version once in docker image
 Note, possible alternative to the commits [from SO](https://stackoverflow.com/a/19616598/2725969):
 
 ```
-sudo docker start 80cdfdd00f76 # restart it in the background
-sudo docker attach 80cdfdd00f76 # reattach the terminal & stdin>
+sudo docker start d5c6c1a63dbd # restart it in the background
+sudo docker attach d5c6c1a63dbd # reattach the terminal & stdin>
 ```
 
 # Deleting images
