@@ -2,10 +2,11 @@
 # CC = gcc
 # CFLAGS = -O2 -Wall -std=gnu99
 
-# # D_ANSI_SOURCE to help detect c99 non-compliance, but too strict as that is
 # # C 90
 # CFLAGS = -O2 -Wall -std=c99 -pedantic -Wextra -D_ANSI_SOURCE
 
 # CFLAGS += -O3
 
-# CFLAGS += -O0 -Wextra -pedantic -Wuninitialized -Wstrict-overflow
+# For Valgrind, and for detecting non-compliance with C99
+
+# CFLAGS += -O0 -std=c99 -Wextra -pedantic -Wuninitialized -Wstrict-overflow -D_POSIX_C_SOURCE=200112L
