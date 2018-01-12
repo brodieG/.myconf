@@ -1,6 +1,6 @@
 # Docker
 
-## Installation
+## Under Vagrant
 
 This assumes we're running docker under a vagrant instance (see the vagrant
 folder, in particular `boostrap.sh`
@@ -76,8 +76,23 @@ sudo docker pull rocker/drd  # Development version
 
 Unfortunately this doesn't automatically update our image...
 
+## On OSX
 
-## Relevant Docs
+From [Jim Hester's docker guide](http://www.jimhester.com/2017/10/13/docker/):
 
-* [Jim Hester's docker guide](http://www.jimhester.com/2017/10/13/docker/)
+```
+# Change to the directory
+cd /a/certain/directory
+
+# Start docker in that directory, mapping the current directory to a directory
+# in the docker image using the `rocker/r-apt:trusty` container and starting a
+# bash prompt in that container.
+
+docker run -v "$(pwd)":"/opt/$(basename $(pwd))" -it rocker/r-apt:trusty /bin/bash
+docker run -v "$(pwd)":"/opt/$(basename $(pwd))" -it rocker/r-devel-san /bin/bash
+
+cd /opt/<pkg_name>
+
+```
+
 
