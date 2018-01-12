@@ -1,5 +1,7 @@
 # Docker
 
+## Installation
+
 This assumes we're running docker under a vagrant instance (see the vagrant
 folder, in particular `boostrap.sh`
 
@@ -73,3 +75,9 @@ sudo docker pull rocker/drd  # Development version
 ```
 
 Unfortunately this doesn't automatically update our image...
+
+
+## Relevant Docs
+
+* [Jim Hester's docker guide](http://www.jimhester.com/2017/10/13/docker/)
+

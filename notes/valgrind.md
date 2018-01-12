@@ -12,3 +12,11 @@ around, and settled on:
 ```
 sudo chown -R brodie:admin /usr/local/bin
 ```
+
+This is apparently somewhat controversial since that folder is not a single user
+folder, so presumably it shouldn't be owned by a single user, but since my
+system is single user it seemed like the best of bad options.
+
+Actually ran into this issue again, possibly after some OSX upgrades.  This
+time, it was because I couldn't uninstall things in /usr/local/bin even though I
+had rwx to them because /usr/local/bin itself was root.
