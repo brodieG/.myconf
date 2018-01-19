@@ -90,6 +90,7 @@ cd /a/certain/directory
 
 docker run -v "$(pwd)":"/opt/$(basename $(pwd))" -it rocker/r-apt:trusty /bin/bash
 docker run -v "$(pwd)":"/opt/$(basename $(pwd))" -it rocker/r-devel-san /bin/bash
+docker run -v "$(pwd)":"/opt/$(basename $(pwd))" -it rocker/r-devel-ubsan-clang /bin/bash
 
 cd /opt/<pkg_name>
 
