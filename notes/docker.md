@@ -2,6 +2,8 @@
 
 ## Under Vagrant
 
+### Install
+
 This assumes we're running docker under a vagrant instance (see the vagrant
 folder, in particular `boostrap.sh`
 
@@ -55,7 +57,7 @@ sudo docker start d5c6c1a63dbd # restart it in the background
 sudo docker attach d5c6c1a63dbd # reattach the terminal & stdin>
 ```
 
-# Deleting images
+### Deleting images
 
 ```
 # containers
@@ -68,7 +70,7 @@ sudo docker rm $(sudo docker ps -a -q)
 sudo docker rmi $(sudo docker images -a -q)
 ```
 
-# Updating drd
+### Updating drd
 
 ```
 sudo docker pull rocker/drd  # Development version
@@ -96,4 +98,9 @@ cd /opt/<pkg_name>
 
 ```
 
+## Winston Chang Docker
+
+[https://hub.docker.com/r/wch1/r-debug/](docker-hub).
+
+Lots of goodies there
 

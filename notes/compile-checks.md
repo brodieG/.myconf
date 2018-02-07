@@ -63,3 +63,6 @@ env R_JIT_STRATEGY=4 R_CHECK_CONSTANTS=5 R CMD check
 # env R_COMPILE_PKGS=1 R_JIT_STRATEGY=4 R_CHECK_CONSTANTS=5 R
 ```
 
+## Other Checks
+
+See the docker file.
