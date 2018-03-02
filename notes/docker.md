@@ -82,6 +82,8 @@ Unfortunately this doesn't automatically update our image...
 
 From [Jim Hester's docker guide](http://www.jimhester.com/2017/10/13/docker/):
 
+Remember to delete o,so files.
+
 ```
 # Change to the directory
 cd /a/certain/directory
