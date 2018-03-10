@@ -23,7 +23,7 @@ git clone --recursive https://github.com/brodieG/vim.git ~/.vim
 echo "source ~/.vim/vimrc" > ~/.vimrc
 
 ```
-A simple isntall:
+A simple install:
 ```
 mkdir repos
 cd repos
@@ -104,5 +104,39 @@ cd /opt/<pkg_name>
 
 [https://hub.docker.com/r/wch1/r-debug/](docker-hub).
 
-Lots of goodies there
+Lots of goodies there.
 
+```
+docker pull wch1/r-debug
+
+docker run --rm -ti --security-opt seccomp=unconfined wch1/r-debug
+
+# Then you can run R-devel with:
+RD
+
+# Or, to run one of the other builds:
+RDvalgrind -d valgrind
+RDsan
+RDstrictbarrier
+RDassertthread
+```
+he --security-opt seccomp=unconfined is needed to use gdb in the container. Without it, you'll see a message like warning: Error disabling address space randomization: Operation not permitted, and R will fail to start in the debugger.
+
+To mount a local directory in the docker container:
+
+```
+docker run --rm -ti --security-opt seccomp=unconfined -v /my/local/dir:/mydir wch1/r-debug
+
+# Mount the current host directory at /mydir
+docker run --rm -ti --security-opt seccomp=unconfined -v $(pwd):/mydir wch1/r-debug
+```
+
+If you want to have multiple terminals in the same container, start the container with --name and use docker exec from another terminal:
+
+```
+# Start container
+docker run --rm -ti --name rd --security-opt seccomp=unconfined wch1/r-debug
+
+# In another terminal, get a bash prompt in the container
+docker exec -ti rd /bin/bash
+```
