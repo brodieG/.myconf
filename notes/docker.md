@@ -74,6 +74,7 @@ sudo docker rmi $(sudo docker images -a -q)
 
 ```
 sudo docker pull rocker/drd  # Development version
+sudo docker pull rocker/r-devel  # Development version
 ```
 
 Unfortunately this doesn't automatically update our image...
