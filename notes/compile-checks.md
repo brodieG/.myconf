@@ -21,36 +21,9 @@ that being recommended for the default `memcheck` tests.  Actually, this does
 seem to make a difference as we detected some `memchr` access errors that were
 not showing up otherwise (those might be spurious though).
 
-## Rchck
+## Rchk
 
-Easiest set up I've figured is to use the vagrant image [Tomas Kalibera
-provides](https://github.com/kalibera/rchk), although initial set-up takes quite
-a while.
-
-Instructions we used to check package `vetr` on branch issue43a, though remember
-to set up the environment for package checks as in the instructions.
-
-```
-cd ~
-wget https://codeload.github.com/brodieG/vetr/zip/issue43a
-unzip issue43a
-cd trunk/
-bin/R
-# remove.packages('vetr')
-# install.packages(repos=NULL, '~/vetr-issue43a')
-/opt/rchk/scripts/check_package.sh vetr
-less packages/lib/vetr/libs/vetr.so.bcheck
-```
-
-Also, at some point had to bring down RAM usage in the `rchk/image/config.yml`
-file:
-
-```
-# for 2G machine:
-vm_memory: 2048
-bcheck_max_states: 375000
-callocators_max_states: 250000
-```
+See notes/rchk.md
 
 ## Rcnst
 

@@ -1,20 +1,19 @@
 ## rchk
 
-This install takes forever because it requires building R, getting ubuntu
-16.xx, etc.
+Easiest set up I've figured is to use the vagrant image [Tomas Kalibera
+provides](https://github.com/kalibera/rchk), although initial set-up takes
+forever because it requires building R, getting ubuntu 16.xx, etc.
 
 1. Clone https://github.com/kalibera/rchk into vagrant folder.
 2. cd into that folder (the `image` folder)
 3. vagrant up
-4. Follow instructions in readme
+4. Follow instructions in README
+5. Remeber we can just svn update after initial checkout
 
 We had an issue where we needed to update the LLVM installation, and to succeed
 we had to `vagrant destroy && vagrant up`.
 
-Helpful things:
-
-* use `svn update` instead of checkout after first d/l
-* copy the tar.gz into vagrant sync folder:
+We can use the vagrant sync folder.
 
 ```
 R CMD build .
@@ -26,3 +25,14 @@ cp xx.tar.gz ~/vagrant/rchk/images/repos
 ./bin/R
 install.packages('/vagrant/repos/xx.tar.gz')
 ```
+
+Also, at some point had to bring down RAM usage in the `rchk/image/config.yml`
+file:
+
+```
+# for 2G machine:
+vm_memory: 2048
+bcheck_max_states: 375000
+callocators_max_states: 250000
+```
+
