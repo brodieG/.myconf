@@ -2,6 +2,9 @@
 
 Starting with [Ushey post](https://kevinushey.github.io/blog/2015/04/05/debugging-with-valgrind/)
 
+*UPDATE*: we really need to use the instrumented version of R as in WCHs docker
+containers, b/c otherwise we don't replicate what CRAN does.
+
 ```
 brew install valgrind --HEAD
 ```
@@ -20,3 +23,4 @@ system is single user it seemed like the best of bad options.
 Actually ran into this issue again, possibly after some OSX upgrades.  This
 time, it was because I couldn't uninstall things in /usr/local/bin even though I
 had rwx to them because /usr/local/bin itself was root.
+

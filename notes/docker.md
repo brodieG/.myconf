@@ -116,7 +116,7 @@ docker run --rm -ti --security-opt seccomp=unconfined wch1/r-debug
 RD
 
 # Or, to run one of the other builds:
-RDvalgrind -d valgrind
+RDvalgrind -d "valgrind --track-origins=yes"
 RDsan
 RDstrictbarrier
 RDassertthread
