@@ -10,6 +10,8 @@ CFLAGS += -Wextra -pedantic -Wuninitialized -Wstrict-overflow -fsanitize=alignme
 
 ## Valgrind
 
+We really need to use valgrind with R with level 2 instrumentation.
+
 Will require valgrind installed (see valgrind notes), then:
 
 ```

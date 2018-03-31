@@ -36,3 +36,16 @@ bcheck_max_states: 375000
 callocators_max_states: 250000
 ```
 
+## General R Installs With R Check
+
+So it turns out the `rchk` image is a pretty good starting point for building
+our own R packages, so from within, we can do, for example:
+
+```
+sudo apt-get install valgrind
+cd ~/trunk
+./config --with-valgrind-instrumentation=2
+make
+
+./bin/R -d "valgrind --track-origins=yes"
+```
