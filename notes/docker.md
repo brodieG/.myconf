@@ -96,6 +96,7 @@ cd /a/certain/directory
 docker run -v "$(pwd)":"/opt/$(basename $(pwd))" -it rocker/r-apt:trusty /bin/bash
 docker run -v "$(pwd)":"/opt/$(basename $(pwd))" -it rocker/r-devel-san /bin/bash
 docker run -v "$(pwd)":"/opt/$(basename $(pwd))" -it rocker/r-devel-ubsan-clang /bin/bash
+docker run -v "$(pwd)":"/opt/$(basename $(pwd))" -it rocker/r-ver:3.1 /bin/bash
 
 cd /opt/<pkg_name>
 
@@ -121,7 +122,7 @@ RDsan
 RDstrictbarrier
 RDassertthread
 ```
-he --security-opt seccomp=unconfined is needed to use gdb in the container. Without it, you'll see a message like warning: Error disabling address space randomization: Operation not permitted, and R will fail to start in the debugger.
+The --security-opt seccomp=unconfined is needed to use gdb in the container. Without it, you'll see a message like warning: Error disabling address space randomization: Operation not permitted, and R will fail to start in the debugger.
 
 To mount a local directory in the docker container:
 

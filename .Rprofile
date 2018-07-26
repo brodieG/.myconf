@@ -1,4 +1,4 @@
-options(repos = c(CRAN="http://cran.r-project.org"))
+options(repos = c(CRAN="https://cran.r-project.org"))
 options(unitizer.state='recommended')
 options(menu.graphics=FALSE)
 di <- function(x = ".") {

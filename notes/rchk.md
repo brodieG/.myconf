@@ -47,5 +47,7 @@ cd ~/trunk
 ./config --with-valgrind-instrumentation=2
 make
 
+# make sure ~/.R/Makevars has -O0 setting
+
 ./bin/R -d "valgrind --track-origins=yes"
 ```
