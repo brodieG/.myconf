@@ -30,4 +30,8 @@ dataStr <- function(fun=function(x) TRUE)
 ) ) )
 
 # options(diffobj.brightness=c("neutral", ansi256="dark"))
+
 options(unitizer.state='recommended')
+
+wre <- function() browseURL(file.path(R.home("doc"), 'manual', 'R-exts.html'))
+
