@@ -2,26 +2,24 @@ List of checks to run on compiled packages
 
 ## Compilation Settings
 
-Err, don't quite recall what all these are, and why they are here.
+```
+CFLAGS += -O0 -std=c99 -Wextra -pedantic -Wuninitialized -Wstrict-overflow -D_POSIX_C_SOURCE=200112L
+```
 
 ```
-CFLAGS += -Wextra -pedantic -Wuninitialized -Wstrict-overflow -fsanitize=alignment,bool,bounds,enum,float-cast-overflow,float-divide-by-zero,function,integer-divide-by-zero,nonnull-attribute,null,object-size,return,returns-nonnull-attribute,shift,signed-integer-overflow,unreachable,unsigned-integer-overflow,vla-bound,vptr
+CFLAGS += -O0 -std=c99 -Wextra -pedantic -Wuninitialized -Wmaybe-uninitialized -Wstrict-overflow -D_POSIX_C_SOURCE=200112L
 ```
+
+Last one is to try to make sure we run in real C99 to avoid issues with BDR.
 
 ## Valgrind
 
-We really need to use valgrind with R with level 2 instrumentation.
+Currently we run valgrind by using `RDvalgrind` binary that comes with the
+wch-rdebug docker container.  See the docker notes.
 
-Will require valgrind installed (see valgrind notes), then:
+## UBSAN
 
-```
-R CMD check --use-valgrind <pkg.tar.ball>
-```
-
-Also, potentially add an `-O0` to the compilation flags?  Have vague memory of
-that being recommended for the default `memcheck` tests.  Actually, this does
-seem to make a difference as we detected some `memchr` access errors that were
-not showing up otherwise (those might be spurious though).
+Currently we run UBSAN by using the RD binary that comes with wch/r-debug.
 
 ## Rchk
 

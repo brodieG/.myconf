@@ -18,7 +18,7 @@ We can use the vagrant sync folder.
 ```
 R CMD build .
 mkdir ~/vagrant/rchk/images/repos
-cp xx.tar.gz ~/vagrant/rchk/images/repos
+cp xx.tar.gz ~/vagrant/rchk/image/repos
 
 # then in vagrant instance
 

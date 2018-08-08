@@ -9,4 +9,4 @@
 
 # For Valgrind, and for detecting non-compliance with C99
 
-# CFLAGS += -O0 -std=c99 -Wextra -pedantic -Wuninitialized -Wstrict-overflow -D_POSIX_C_SOURCE=200112L
+CFLAGS += -O0 -std=c99 -Wextra -pedantic -Wuninitialized -Wstrict-overflow -D_POSIX_C_SOURCE=200112L
