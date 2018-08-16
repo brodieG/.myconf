@@ -35,3 +35,10 @@ options(unitizer.state='recommended')
 
 wre <- function() browseURL(file.path(R.home("doc"), 'manual', 'R-exts.html'))
 
+check_cran <- function(email) {
+  utils::browseURL(
+    sprintf(
+      "https://cran.r-project.org/web/checks/check_results_%s.html",
+      gsub("[^A-Za-z0-9_:.-]", "_", sub("@", "_at_", email))
+) ) }
+if(interactive()) check_cran('brodie.gaslam@yahoo.com')
