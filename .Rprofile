@@ -38,9 +38,13 @@ wre <- function() browseURL(file.path(R.home("doc"), 'manual', 'R-exts.html'))
 check_cran <- function(
   email, cache='~/.R-cran-status.RDS', cache.life=24 * 3600
 ) {
+  url <- sprintf(
+    "https://cran.r-project.org/web/checks/check_results_%s.html",
+    gsub("[^A-Za-z0-9_:.-]", "_", sub("@", "_at_", email))
+  )
   display_check <- function(x, extra=NULL) {
     print(x)
-    err.cols <- x[names(x) %in% c("WARNING", "ERROR")]
+    err.cols <- unlist(x[names(x) %in% c("WARNING", "ERROR")])
     if(sum(as.numeric(err.cols), na.rm=TRUE))
       writeLines(c("\033[41mErrors/Warnings Present\033[m", url))
     writeLines(c(extra, ""))
@@ -58,10 +62,6 @@ check_cran <- function(
             "cached CRAN status (%s old).", format(round(cache.age))
   ) ) ) } }
   if(renew.cache) {
-    url <- sprintf(
-      "https://cran.r-project.org/web/checks/check_results_%s.html",
-      gsub("[^A-Za-z0-9_:.-]", "_", sub("@", "_at_", email))
-    )
     cat("connecting to CRAN...")
     page <- readLines(url)
     cat("\r                     \r")
