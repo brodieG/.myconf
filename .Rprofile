@@ -2,6 +2,7 @@ if(interactive()) {
   options(repos = c(CRAN="https://cran.r-project.org"))
   options(unitizer.state='recommended')
   options(menu.graphics=FALSE)
+  options(help_type='html')
 
   di <- function(x = ".") {
     dirname <- basename(normalizePath(x))
