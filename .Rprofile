@@ -85,3 +85,4 @@ if(interactive()) {
   }
   check_cran('brodie.gaslam@yahoo.com', cache.life=8 * 3600)
 }
+Sys.setenv(NOT_CRAN='TRUE')
