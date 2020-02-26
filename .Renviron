@@ -1,3 +1,6 @@
+# AFAICT these are loaded by R CMD check, but one problem is that R-devel will
+# often have different settings
+
 NOT_CRAN=TRUE
 _R_CHECK_LENGTH_1_LOGIC2_=TRUE
 _R_CHECK_CRAN_INCOMING_CHECK_FILE_URIS_=TRUE
