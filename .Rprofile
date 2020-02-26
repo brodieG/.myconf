@@ -3,6 +3,7 @@ if(interactive()) {
   options(unitizer.state='recommended')
   options(menu.graphics=FALSE)
   options(help_type='html')
+  options(blogdown.ext='.Rmd')
 
   di <- function(x = ".") {
     dirname <- basename(normalizePath(x))
@@ -16,12 +17,12 @@ if(interactive()) {
     install.packages(repos=NULL, normalizePath(x), type="src")
     library(dirname, character.only=TRUE)
   }
-  dd <- devtools::document
-  cd <- function(x=.Last.value) {
-    dep.val <- deparse(x, width=500)
-    overflow:::writeClip(dep.val)
-    cat(dep.val, "\n", sep="")
-  }
+  # dd <- devtools::document
+  # cd <- function(x=.Last.value) {
+  #   dep.val <- deparse(x, width=500)
+  #   overflow:::writeClip(dep.val)
+  #   cat(dep.val, "\n", sep="")
+  # }
 
   dataStr <- function(fun=function(x) TRUE)
     str(
@@ -85,4 +86,4 @@ if(interactive()) {
   }
   check_cran('brodie.gaslam@yahoo.com', cache.life=8 * 3600)
 }
-Sys.setenv(NOT_CRAN='TRUE', _R_CHECK_LENGTH_1_LOGIC2_='TRUE')
+Sys.setenv(NOT_CRAN='TRUE', '_R_CHECK_LENGTH_1_LOGIC2_'='TRUE')
