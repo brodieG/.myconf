@@ -1,11 +1,13 @@
 # # setting CC to gcc just seems to alias back to clang
 # CC = gcc
-# CFLAGS = -O2 -Wall -std=gnu99
+# CFLAGS += -O0 -Wall -std=gnu99
 
 # # C 90
-# CFLAGS = -O2 -Wall -std=c99 -pedantic -Wextra -D_ANSI_SOURCE
+# CFLAGS = -O0 -Wall -std=c99 -pedantic -Wextra -D_ANSI_SOURCE
+CFLAGS += -fno-common
 
-# CFLAGS += -O3
+# # Output assembler in intel syntax
+# CFLAGS += -S -masm=intel -O0
 
 # For Valgrind, and for detecting non-compliance with C99
 
