@@ -24,3 +24,6 @@ Actually ran into this issue again, possibly after some OSX upgrades.  This
 time, it was because I couldn't uninstall things in /usr/local/bin even though I
 had rwx to them because /usr/local/bin itself was root.
 
+Even worse this caused problems with the admin scripts that run on the DCE
+laptop, so really not an option.
+

@@ -17,6 +17,7 @@ ln -s ~/.myconf/vagrant/bootstrap.sh ~/vagrant/bootstrap.sh
 ln -s ~/.myconf/.gitconfig ~/.gitconfig
 ln -s ~/.myconf/.gitignore_global ~/.gitignore_global
 ln -s ~/.myconf/.Rprofile ~/.Rprofile
+ln -s ~/.myconf/.Renviron ~/.Renviron
 
 ln -s ~/.myconf/.R/ ~/.R
 ```

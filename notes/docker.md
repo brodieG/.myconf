@@ -132,6 +132,9 @@ docker run --rm -ti --security-opt seccomp=unconfined -v /my/local/dir:/mydir wc
 # Mount the current host directory at /mydir
 docker run --rm -ti --security-opt seccomp=unconfined -v $(pwd):/mydir wch1/r-debug
 docker run --rm -ti -v $(pwd):/mydir wch1/r-debug
+
+docker run --rm -ti --security-opt seccomp=unconfined -v $(pwd):/mydir rocker/r-base /bin/bash
+
 ```
 
 If you want to have multiple terminals in the same container, start the container with --name and use docker exec from another terminal:
