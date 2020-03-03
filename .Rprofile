@@ -1,10 +1,14 @@
 if(interactive()) {
-  options(repos = c(CRAN="https://cran.r-project.org"))
-  options(unitizer.state='recommended')
-  options(menu.graphics=FALSE)
-  options(help_type='html')
-  options(blogdown.ext='.Rmd')
-
+  options(
+    repos=c(CRAN="https://cran.r-project.org"),
+    unitizer.state='recommended',
+    menu.graphics=FALSE,
+    help_type='html',
+    warnPartialMatchArgs=TRUE,
+    warnPartialMatchAttr=TRUE,
+    warnPartialMatchDollar=TRUE,
+    blogdown.ext='.Rmd'
+  )
   di <- function(x = ".") {
     dirname <- basename(normalizePath(x))
     if(
@@ -86,4 +90,5 @@ if(interactive()) {
   }
   check_cran('brodie.gaslam@yahoo.com', cache.life=8 * 3600)
 }
+
 Sys.setenv(NOT_CRAN='TRUE', '_R_CHECK_LENGTH_1_LOGIC2_'='TRUE')
