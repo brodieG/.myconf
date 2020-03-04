@@ -8,7 +8,11 @@ forever because it requires building R, getting ubuntu 16.xx, etc.
 2. cd into that folder (the `image` folder)
 3. vagrant up
 4. Follow instructions in README
-5. Remeber we can just svn update after initial checkout
+   * These have changed a lot from the original vanilla ones, but look for
+     "Testing the installation"
+   * Be sure to use the commands in parenthesis ('starting with
+     /opt/rchk/scripts')
+5. Remember we can just svn update after initial checkout
 
 We had an issue where we needed to update the LLVM installation, and to succeed
 we had to `vagrant destroy && vagrant up`.
