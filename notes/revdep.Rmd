@@ -1,0 +1,40 @@
+# Reverse Dependencies
+
+[Mark's Blog](https://www.markvanderloo.eu/yaRb/2019/04/26/checking-reverse-dependencies-the-tiny-way/).
+
+```
+result <- tools::check_packages_in_dir(".", , reverse = list())
+```
+
+For suggests, first install the dependencies for then (is this truly necessary?
+The revdep process seems to do it too).  Maybe the problem is that it refuses to
+install packages to the new lib that are already installed, but some of them are
+out of date.
+
+```
+db <- tools::CRAN_package_db()
+rev_s <-
+  unlist(strsplit(subset(db, Package == 'diffobj')[['Reverse suggests']], ", "))
+# rev_ss <- unlist(
+#   strsplit(
+#     subset(db, Package %in% rev_s)[['Suggests']], "(?:\\s+.*)?,\\s+",
+#     perl=TRUE,
+# ) )
+# 
+install.packages(
+  rev_s,
+  dependencies=c("Depends", "Imports", "LinkingTo", "Suggests"), 
+  lib='./Library',
+  repos='https://cloud.r-project.org'
+)
+```
+
+Then:
+
+```
+result <- tools::check_packages_in_dir(
+  "/Volumes/PERSONAL/repos/revdeptests", , reverse = list(which='Suggests')
+)
+```
+
+
