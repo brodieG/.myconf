@@ -3,38 +3,49 @@
 [Mark's Blog](https://www.markvanderloo.eu/yaRb/2019/04/26/checking-reverse-dependencies-the-tiny-way/).
 
 ```
-result <- tools::check_packages_in_dir(".", , reverse = list())
+result <- tools::check_packages_in_dir(".", reverse = list())
 ```
 
-For suggests, first install the dependencies for then (is this truly necessary?
-The revdep process seems to do it too).  Maybe the problem is that it refuses to
-install packages to the new lib that are already installed, but some of them are
-out of date.
+Main issue we've run into is that automatic rev dep install is from sources,
+which is a pain.  Instead:
+
+Uh, dunno, actually may need source packages, plus check packages installs
+anyway...  Actually, what we need to do is get all the dependencies of our
+dependencies, and install those as "both", without tests, and then let revdep do
+its thing.  This does mean we'll install our packages twice.
+
+NEED TO CHECK IF REVDEP DEPENDENCIES FORCE-REINSTALLED...  They might be.
 
 ```
+pkg <- 'diffobj'
 db <- tools::CRAN_package_db()
-rev_s <-
-  unlist(strsplit(subset(db, Package == 'diffobj')[['Reverse suggests']], ", "))
-# rev_ss <- unlist(
-#   strsplit(
-#     subset(db, Package %in% rev_s)[['Suggests']], "(?:\\s+.*)?,\\s+",
-#     perl=TRUE,
-# ) )
-# 
+deps <- unlist(
+  subset(db, Package == pkg)[
+    paste0('Reverse ', c('depends', 'imports', 'suggests', 'linking to'))
+  ]
+)
+rev <- unname(unlist(strsplit(deps[!is.na(deps)], ", ")))
 install.packages(
-  rev_s,
-  dependencies=c("Depends", "Imports", "LinkingTo", "Suggests"), 
-  lib='./Library',
-  repos='https://cloud.r-project.org'
+  rev, lib='./Library', repos='https://cloud.r-project.org', type="both",
+  INSTALL_opts="--install-tests"
 )
 ```
 
-Then:
+But we have to make sure the tests are installed too.
+
+If source packages cause problems set `type='binary'`.  Right now both means use
+source if source more recent.
 
 ```
-result <- tools::check_packages_in_dir(
-  "/Volumes/PERSONAL/repos/revdeptests", , reverse = list(which='Suggests')
+result <- tools::check_packages_in_dir(".", reverse = list(which='most'))
+summary(results)
+
+```
+
+
+
+install.packages(
+  'unitizer', lib='./Library', repos='https://cloud.r-project.org', 
+  type="binary", INSTALL_opts="--install-tests"
 )
-```
-
-
+tools::testInstalledPackage('unitizer', lib.loc='./Library')
