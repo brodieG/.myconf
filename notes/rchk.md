@@ -1,4 +1,3 @@
-## rchk
 
 Easiest set up I've figured is to use the vagrant image [Tomas Kalibera
 provides](https://github.com/kalibera/rchk), although initial set-up takes
@@ -40,6 +39,30 @@ bcheck_max_states: 375000
 callocators_max_states: 250000
 ```
 
+## X11 forwarding
+
+```
+sudo apt-get install xauth
+sudo apt-get install xorg openbox  # maybe?
+```
+
+From
+[coderwall](https://coderwall.com/p/ozhfva/run-graphical-programs-within-vagrantboxes)
+
+Add to Vagrantfile:
+
+```
+  config.ssh.forward_x11 = true
+```
+
+And then:
+
+```
+ vagrant ssh -- -X
+```
+
+This allowed me to open xclock.
+
 ## General R Installs With R Check
 
 So it turns out the `rchk` image is a pretty good starting point for building
@@ -48,10 +71,27 @@ our own R packages, so from within, we can do, for example:
 ```
 sudo apt-get install valgrind
 cd ~/trunk
-./config --with-valgrind-instrumentation=2
+./configure --with-valgrind-instrumentation=2
 make
 
 # make sure ~/.R/Makevars has -O0 setting
 
 ./bin/R -d "valgrind --track-origins=yes"
 ```
+
+## Adding Features
+
+### Overview
+
+A few things I added that I no longer remember how to do:
+
+* GDB?
+
+### X11
+
+Trying to test in GUI mode.
+
+```
+sudo apt-get install xorg openbox
+```
+

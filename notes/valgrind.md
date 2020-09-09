@@ -1,9 +1,15 @@
 # Valgrind
 
+## Update
+
 Starting with [Ushey post](https://kevinushey.github.io/blog/2015/04/05/debugging-with-valgrind/)
 
 *UPDATE*: we really need to use the instrumented version of R as in WCHs docker
 containers, b/c otherwise we don't replicate what CRAN does.
+
+Another option is `rchk` image.
+
+## Old Notes
 
 ```
 brew install valgrind --HEAD
@@ -15,6 +21,8 @@ around, and settled on:
 ```
 sudo chown -R brodie:admin /usr/local/bin
 ```
+> This caused problems with the admin scripts that run on the DCE laptop, so
+> really not an option.
 
 This is apparently somewhat controversial since that folder is not a single user
 folder, so presumably it shouldn't be owned by a single user, but since my
@@ -24,6 +32,4 @@ Actually ran into this issue again, possibly after some OSX upgrades.  This
 time, it was because I couldn't uninstall things in /usr/local/bin even though I
 had rwx to them because /usr/local/bin itself was root.
 
-Even worse this caused problems with the admin scripts that run on the DCE
-laptop, so really not an option.
 

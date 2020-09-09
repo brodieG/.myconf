@@ -1,5 +1,7 @@
 # Vagrant Installation
 
+See Also the `rchk` notes.
+
 ## Virtual Box Installation
 
 1. dl binaries from [virtual box](https://www.virtualbox.org/)
