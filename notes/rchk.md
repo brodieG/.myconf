@@ -65,33 +65,5 @@ This allowed me to open xclock.
 
 ## General R Installs With R Check
 
-So it turns out the `rchk` image is a pretty good starting point for building
-our own R packages, so from within, we can do, for example:
-
-```
-sudo apt-get install valgrind
-cd ~/trunk
-./configure --with-valgrind-instrumentation=2
-make
-
-# make sure ~/.R/Makevars has -O0 setting
-
-./bin/R -d "valgrind --track-origins=yes"
-```
-
-## Adding Features
-
-### Overview
-
-A few things I added that I no longer remember how to do:
-
-* GDB?
-
-### X11
-
-Trying to test in GUI mode.
-
-```
-sudo apt-get install xorg openbox
-```
+See r-build.md
 
