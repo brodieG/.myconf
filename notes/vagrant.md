@@ -1,6 +1,6 @@
 # Vagrant Installation
 
-See Also the `rchk` notes.
+See Also the `rchk` notes.  These may be unrelated!
 
 ## Virtual Box Installation
 
@@ -48,4 +48,13 @@ properly.
 ```
 vagrant up
 ```
+
+## New Boxes
+
+It seems virtual box wants to just provide the default box whatever is in the
+Vagrantfile of the image.  I was unable to upgrade to run image with a different
+box until after I deleted all the previous boxes from Virtualbox directly, and
+then finally was able to get Bionic installed (recognized), even though the
+Vagrantfile was asking for that the whole time..
+
 
