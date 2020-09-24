@@ -20,5 +20,20 @@ incorrect):
 
 This could be wrong, but it's possible to do something of the sort.
 
+In Windows (from Kalibera):
+
+> Gdb on Windows is a pain, essentially you need to build with debug
+> symbols (preferably without optimizations, so -O0 in EOPTS), the default
+> build have debug symbols stripped (set DEBUG=T before running make).
+> Then you start gdb on RGui.exe, then "set solib-search-path", run it,
+> from RGui menu you do "Break to debugger", then set a breakpoint, then
+> continue. I can of course provide more details if you wanted to have a
+> look. It may actually be easier to add printf to the CreateProcess to
+> see the command line, which I suppose will be correct, and I suppose it
+> is some Windows issue/weirdness. We could try in wine, then see if it
+> behaves the same there, and if so, debug it there, because there we have
+> the sources...
+
+
 [1]: http://unknownroad.com/rtfm/gdbtut/gdbtoc.html
 

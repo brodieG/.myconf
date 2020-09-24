@@ -4,10 +4,11 @@
 
 ```
 result <- tools::check_packages_in_dir(".", reverse = list())
+summary(result)
 ```
 
 Main issue we've run into is that automatic rev dep install is from sources,
-which is a pain.  Instead:
+which is a pain (note: don't remember why).  Instead:
 
 Uh, dunno, actually may need source packages, plus check packages installs
 anyway...  Actually, what we need to do is get all the dependencies of our
@@ -44,8 +45,10 @@ summary(results)
 
 
 
+```
 install.packages(
   'unitizer', lib='./Library', repos='https://cloud.r-project.org', 
   type="binary", INSTALL_opts="--install-tests"
 )
 tools::testInstalledPackage('unitizer', lib.loc='./Library')
+```

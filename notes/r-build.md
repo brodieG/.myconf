@@ -11,11 +11,25 @@ Recent configure/builds I've been doing:
 
 ## Best practices
 
-## To Do
+## Sanitized Build
 
-Explore whether we can use the sanitize flags [directly in the compiler][3].
+### gcc
 
-    -fsanitize=address -fno-omit-frame-pointer
+We've been able to build sanitized in clang, but not in gcc because the
+undefined behavior sanitizer doesn't seem to work.
+
+See todo in `misc` repo.
+
+### clang
+
+config.site config:
+
+    ## CC="clang -fsanitize=address,undefined -fno-sanitize=float-divide-by-zero -fno-sanitize=alignment -fno-omit-frame-pointer"
+    ## CXX="clang++ -fsanitize=address,undefined -fno-sanitize=float-divide-by-zero -fno-sanitize=alignment -fno-omit-frame-pointer -frtti"
+    ## CFLAGS="-g -O3 -Wall -pedantic"
+    ## FFLAGS="-g -O2 -mtune=native"
+    ## CXXFLAGS="-g -O3 -Wall -pedantic"
+    ## MAIN_LD="clang++ -fsanitize=undefined,address"
 
 ## Setup
 
