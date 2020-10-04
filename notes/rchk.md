@@ -1,6 +1,20 @@
+## Overview
 
-Easiest set up I've figured is to use the vagrant image [Tomas Kalibera
-provides](https://github.com/kalibera/rchk), although initial set-up takes
+Tomas provides [rchk tools](https://github.com/kalibera/rchk).  These include
+directions on how to build/install, but note that not all instructions apply to
+Vagrant use.  For example, there are [step-by-step instructions][1] for setting
+things up (these are old?), but at the same time there [are scripts][2] that do
+this slightly differently, so I think we can ignore the step by step
+instructions.
+
+[1]: https://github.com/kalibera/rchk/blob/1684a5e53e3bffe6886953ae9008620e492c2ca2/doc/BUILDING.md
+
+**IMPORTANT**: be sure to comment out any 'config.site' changes as they appear
+to overwrite the compilation flags set by 'cmpconfig.inc'?
+
+## Vagrant Config
+
+Easiest set up I've figured is to use the vagrant image , although initial set-up takes
 forever because it requires building R, getting ubuntu 16.xx, etc.
 
 1. Clone https://github.com/kalibera/rchk into vagrant folder.
@@ -38,6 +52,18 @@ vm_memory: 2048
 bcheck_max_states: 375000
 callocators_max_states: 250000
 ```
+
+## Checking R
+
+Follow same instructions for packages,
+
+Then, run some version (TBD) of:
+
+```
+/opt/rchk/scripts/check_r.sh
+```
+
+One issue is that config.site affects things.
 
 ## X11 forwarding
 

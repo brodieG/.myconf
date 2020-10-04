@@ -2,34 +2,51 @@
 
 ## Update
 
-Starting with [Ushey post](https://kevinushey.github.io/blog/2015/04/05/debugging-with-valgrind/)
+Starting with [Ushey post][2]
 
 *UPDATE*: we really need to use the instrumented version of R as in WCHs docker
 containers, b/c otherwise we don't replicate what CRAN does.
 
-Another option is `rchk` image.
+Another option is `rchk` image, which works well.  Basic config:
 
-## Old Notes
+    ./configure --with-valgrind-instrumentation=2
+    make
+    ./bin/R -d "valgrind --track-origins=yes"
 
-```
-brew install valgrind --HEAD
-```
+BDR provides a [valgrind config][1] that includes a suppression file and fuller
+config directives which we've copied in to 'r-valgrind.supp' and symlinked into
+the rchk vagrant trunk folder.
 
-Got some warnings about not being able to write to /usr/local/bin.  Looked
-around, and settled on:
+Note that the `setenv` instructions are for specific shell type (not Bash).
 
-```
-sudo chown -R brodie:admin /usr/local/bin
-```
-> This caused problems with the admin scripts that run on the DCE laptop, so
-> really not an option.
+So, to run (check instructions for updates):
 
-This is apparently somewhat controversial since that folder is not a single user
-folder, so presumably it shouldn't be owned by a single user, but since my
-system is single user it seemed like the best of bad options.
+Configured by:
 
-Actually ran into this issue again, possibly after some OSX upgrades.  This
-time, it was because I couldn't uninstall things in /usr/local/bin even though I
-had rwx to them because /usr/local/bin itself was root.
+    ./configure -C --with-valgrind-instrumentation=2 --with-system-valgrind-headers
+
+Or:
+
+    ./configure -C --with-valgrind-instrumentation=2 --with-system-valgrind-headers --with-recommended-packages=no
+
+With config.site:
+
+    CFLAGS="-g -O2 -Wall -pedantic -mtune=native"
+    CXXFLAGS="-g -O2 -Wall -pedantic -mtune=native"
+    FFLAGS="-g -O2 -mtune=native"
+    FCFLAGS="-g -O2 -mtune=native"
+
+And environment variables (seem to be runtime, at least the TK one)
+
+    RJAVA_JVM_STACK_WORKAROUND=0 R_DONT_USE_TK=true LC_CTYPE=en_US.utf8 ./bin/R -d "valgrind --suppressions=./r-valgrind.supp"
 
 
+## Packages:
+
+Once R is build, or available via docker, etc:
+
+> Make sure ~/.R/Makevars has -O0 setting
+
+
+[1]: https://www.stats.ox.ac.uk/pub/bdr/memtests/README.txt
+[2]: https://kevinushey.github.io/blog/2015/04/05/debugging-with-valgrind/
