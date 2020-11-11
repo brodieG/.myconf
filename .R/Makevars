@@ -4,7 +4,7 @@
 
 # # C 90
 # CFLAGS = -O0 -Wall -std=c99 -pedantic -Wextra -D_ANSI_SOURCE
-CFLAGS += -fno-common
+CFLAGS += -fno-common -std=gnu99 -pedantic -Wall
 
 # # Output assembler in intel syntax
 # CFLAGS += -S -masm=intel -O0

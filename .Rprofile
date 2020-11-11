@@ -21,7 +21,7 @@ if(interactive()) {
     install.packages(repos=NULL, normalizePath(x), type="src")
     library(dirname, character.only=TRUE)
   }
-  # dd <- devtools::document
+  rr <- roxygen2::roxygenize
   # cd <- function(x=.Last.value) {
   #   dep.val <- deparse(x, width=500)
   #   overflow:::writeClip(dep.val)

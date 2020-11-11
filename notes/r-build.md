@@ -88,12 +88,12 @@ See todo in `misc` repo.
 
 config.site config:
 
-    ## CC="clang -fsanitize=address,undefined -fno-sanitize=float-divide-by-zero -fno-sanitize=alignment -fno-omit-frame-pointer"
-    ## CXX="clang++ -fsanitize=address,undefined -fno-sanitize=float-divide-by-zero -fno-sanitize=alignment -fno-omit-frame-pointer -frtti"
-    ## CFLAGS="-g -O3 -Wall -pedantic"
-    ## FFLAGS="-g -O2 -mtune=native"
-    ## CXXFLAGS="-g -O3 -Wall -pedantic"
-    ## MAIN_LD="clang++ -fsanitize=undefined,address"
+    CC="clang -fsanitize=address,undefined -fno-sanitize=float-divide-by-zero -fno-sanitize=alignment -fno-omit-frame-pointer"
+    CXX="clang++ -fsanitize=address,undefined -fno-sanitize=float-divide-by-zero -fno-sanitize=alignment -fno-omit-frame-pointer -frtti"
+    CFLAGS="-g -O3 -Wall -pedantic"
+    FFLAGS="-g -O2 -mtune=native"
+    CXXFLAGS="-g -O3 -Wall -pedantic"
+    MAIN_LD="clang++ -fsanitize=undefined,address"
 
 ### Valgrind
 

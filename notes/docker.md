@@ -93,6 +93,7 @@ cd /a/certain/directory
 # in the docker image using the `rocker/r-apt:trusty` container and starting a
 # bash prompt in that container.
 
+docker run -v "$(pwd)":"/opt/$(basename $(pwd))" -it rocker/drd /bin/bash
 docker run -v "$(pwd)":"/opt/$(basename $(pwd))" -it rocker/r-apt:trusty /bin/bash
 docker run -v "$(pwd)":"/opt/$(basename $(pwd))" -it rocker/r-devel-san /bin/bash
 docker run -v "$(pwd)":"/opt/$(basename $(pwd))" --cap-add SYS_PTRACE -it rocker/r-devel-ubsan-clang /bin/bash
@@ -134,6 +135,9 @@ docker run --rm -ti --security-opt seccomp=unconfined -v $(pwd):/mydir wch1/r-de
 docker run --rm -ti -v $(pwd):/mydir wch1/r-debug
 
 docker run --rm -ti --security-opt seccomp=unconfined -v $(pwd):/mydir rocker/r-base /bin/bash
+
+docker run --rm -ti -v $(pwd):/mydir rocker/drd /bin/bash
+
 
 ```
 
