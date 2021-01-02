@@ -4,6 +4,8 @@
 
 ```
 result <- tools::check_packages_in_dir(".", reverse = list())
+# # most includes suggests
+result <- tools::check_packages_in_dir(".", reverse = list(which='most'))
 summary(result)
 ```
 
