@@ -7,21 +7,23 @@ if(interactive()) {
     warnPartialMatchArgs=TRUE,
     warnPartialMatchAttr=TRUE,
     warnPartialMatchDollar=TRUE,
-    blogdown.ext='.Rmd'
+    blogdown.ext='.Rmd',
+    blogdown.hugo.server = c('-D', '-F', '--disableLiveReload'),
+    blogdown.new_bundle = TRUE
   )
-  di <- function(x = ".") {
-    dirname <- basename(normalizePath(x))
-    if(
-      inherits(
-        try(
-          detach(sprintf("package:%s", dirname), unload=TRUE, character.only=TRUE)
-        ), "try-error"
-    ) )
-      warning("Unable to unload package; it may not be loaded.")
-    install.packages(repos=NULL, normalizePath(x), type="src")
+  di <- function(x = ".", tests=FALSE) {
+    x <- normalizePath(x)
+    dirname <- basename(x)
+    pkg <- sprintf("package:%s", dirname)
+    det <- try(detach(pkg, unload=TRUE, character.only=TRUE))
+    if(inherits(det, "try-error")) warning("Can't unload pkg; maybe not loaded?")
+    if(tests)
+      install.packages(repos=NULL, x, type="src", INSTALL_opts="--install-tests")
+    else install.packages(repos=NULL, x, type="src")
     library(dirname, character.only=TRUE)
   }
   rr <- roxygen2::roxygenize
+
   # cd <- function(x=.Last.value) {
   #   dep.val <- deparse(x, width=500)
   #   overflow:::writeClip(dep.val)
@@ -39,7 +41,6 @@ if(interactive()) {
 
   # options(diffobj.brightness=c("neutral", ansi256="dark"))
 
-  wre <- function() browseURL(file.path(R.home("doc"), 'manual', 'R-exts.html'))
   check_cran <- function(
     email, cache='~/.R-cran-status.RDS', cache.life=24 * 3600
   ) {
