@@ -4,6 +4,9 @@ Don't use the typical `gdb programname`.  Instead:
 R -d gdb
 ```
 
+To get full macro expansion, etc, see 'r-build.md' notes as we need special
+compilation settings.
+
 Otherwise see [RMS's tutorial][1].
 
 To add a breakpoint after starting R:
