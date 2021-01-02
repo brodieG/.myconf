@@ -9,5 +9,6 @@
 *.o
 *.so
 *.sw?
+*.Rout.fail
 __Scratch__
 scratch.R
