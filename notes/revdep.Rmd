@@ -2,50 +2,48 @@
 
 [Mark's Blog](https://www.markvanderloo.eu/yaRb/2019/04/26/checking-reverse-dependencies-the-tiny-way/).
 
+There is a bug in 4.0.3 that means this doesn't work (at least with
+`reverse=list(which='most')`?.
+
 ```
 result <- tools::check_packages_in_dir(".", reverse = list())
-# # most includes suggests
+# # most includes suggests, but it seems like it downloads all their recursive
+# # suggests too?
 result <- tools::check_packages_in_dir(".", reverse = list(which='most'))
 summary(result)
 ```
 
 Main issue we've run into is that automatic rev dep install is from sources,
-which is a pain (note: don't remember why).  Instead:
+which is a pain (note: don't remember why).
 
 Uh, dunno, actually may need source packages, plus check packages installs
 anyway...  Actually, what we need to do is get all the dependencies of our
 dependencies, and install those as "both", without tests, and then let revdep do
 its thing.  This does mean we'll install our packages twice.
 
-NEED TO CHECK IF REVDEP DEPENDENCIES FORCE-REINSTALLED...  They might be.
+One thing I've tried is to run the `reverse = list()` option, and then for all
+the dependencies that failed to install, manually install the packages.  But
+that doesn't seem to work very well because when we try to run
+`tools::check_packages_in_dir` it only checks the non-revdep packages, but when
+we ask it to do the reverse it goes crazy and tries to check all the revdeps?.
+Actually, seems okay.  Looks like it only gets what it needs, so when we
+manually download files we're okay.
 
-```
-pkg <- 'diffobj'
-db <- tools::CRAN_package_db()
-deps <- unlist(
-  subset(db, Package == pkg)[
-    paste0('Reverse ', c('depends', 'imports', 'suggests', 'linking to'))
-  ]
-)
-rev <- unname(unlist(strsplit(deps[!is.na(deps)], ", ")))
-install.packages(
-  rev, lib='./Library', repos='https://cloud.r-project.org', type="both",
-  INSTALL_opts="--install-tests"
-)
-```
+So tentative ideal process is:
 
-But we have to make sure the tests are installed too.
+1. Collect all our reverse imports / depends / (suggests)
+2. Collect all their reverse imports etc.
+3. Install all of (2.) from binaries in "./Library".  `check_packages_in_dir`
+   will try to install all these again fresh, but even if they fail re-install
+   it will be fine because they are present in the library.
+4. Remove all old checks `rm -r *.Rcheck`
+5. Run `result <- tools::check_packages_in_dir(".", reverse = list())`
 
-If source packages cause problems set `type='binary'`.  Right now both means use
-source if source more recent.
+Need to adapt it to see if we can do all of this in docker image to mitigate the
+risk of someone maliciously adding a suggests.
 
-```
-result <- tools::check_packages_in_dir(".", reverse = list(which='most'))
-summary(results)
-
-```
-
-
+Testing to see if we can install test with binary; don't recall what happened
+here.
 
 ```
 install.packages(
@@ -54,3 +52,18 @@ install.packages(
 )
 tools::testInstalledPackage('unitizer', lib.loc='./Library')
 ```
+
+## Docker Container
+
+Commentary from Dirk on how to get started:
+
+> If I were to go that route I would either start from r-base (plain Debian,
+> usually in a good state) or with rocker/r-bspm:20.04 (Ubuntu, with 'automagic'
+> use of Rutter PPAs via bspm).  More people more at ease with the
+> market-leading supplier of all things there is also rocker/r-rspm:20.04
+> (Ubuntu plus RSPM; no provision for sys.deps because, well, bspm does that
+> already, and better).
+
+And Mark:
+
+
