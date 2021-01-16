@@ -3,7 +3,7 @@
 [Mark's Blog](https://www.markvanderloo.eu/yaRb/2019/04/26/checking-reverse-dependencies-the-tiny-way/).
 
 There is a bug in 4.0.3 that means this doesn't work (at least with
-`reverse=list(which='most')`?.
+`reverse=list(which='most')` (no, this persists even with the empty list)?.
 
 ```
 result <- tools::check_packages_in_dir(".", reverse = list())
@@ -46,12 +46,57 @@ Testing to see if we can install test with binary; don't recall what happened
 here.
 
 ```
+pkg <- 'ricu'
 install.packages(
-  'unitizer', lib='./Library', repos='https://cloud.r-project.org', 
-  type="binary", INSTALL_opts="--install-tests"
+  pkg, lib='./Library', repos='https://cloud.r-project.org', 
+  # type="binary", 
+  INSTALL_opts="--install-tests"
 )
-tools::testInstalledPackage('unitizer', lib.loc='./Library')
+tools::testInstalledPackage(pkg, lib.loc='./Library')
 ```
+
+## Getting revdeps
+
+```
+pkg <- 'fansi'
+db <- tools::CRAN_package_db()
+# dtype <- c('depends', 'imports', 'suggests', 'linking to')
+dtype <- c('depends', 'imports', 'linking to')
+deps <- unlist(subset(db, Package == pkg)[paste0('Reverse ', dtype)])
+bad <- c('mimic.demo', 'eicu.demo')
+base <- c(
+  "R", "base", "compiler", "datasets", "grDevices", "graphics",
+  "grid", "methods", "parallel", "profile", "splines", "stats",
+  "stats4", "tcltk", "tools", "utils"
+)
+clean_name <- function(x) {
+  tmp <- unique(trimws(gsub("\\(.*\\)$", "", x)))
+  tmp[!tmp %in% c(base, bad)]
+}
+
+rev <- unname(unlist(strsplit(deps[!is.na(deps)], ", ")))
+## install.packages(
+##   rev, lib='./Library', repos='https://cloud.r-project.org', type="both",
+##   INSTALL_opts="--install-tests"
+## )
+
+
+deps.rev <- unlist(
+  subset(db, Package %in% rev)[
+    paste0(c('Depends', 'Imports', 'Suggests', 'LinkingTo'))
+  ]
+)
+rev.rev <- unname(unlist(strsplit(deps.rev[!is.na(deps.rev)], ",[ \n]*")))
+rev.rev <- clean_name(rev.rev)
+rev.rev <- rev.rev[!rev.rev == 'R']
+
+
+install.packages(
+  rev.rev, lib='./Library', repos='https://cloud.r-project.org', type="binary"
+)
+
+```
+
 
 ## Docker Container
 
