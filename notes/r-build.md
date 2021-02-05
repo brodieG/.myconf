@@ -11,6 +11,8 @@
 ## Quick build
 
     make distclean && ./configure --with-recommended-packages=no
+    make distclean && ./configure --with-recommended-packages=no\
+      --disable-byte-compiled-packages
 
 ## Other Useful Flags / Settings
 
