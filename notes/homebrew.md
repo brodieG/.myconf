@@ -18,6 +18,7 @@ around, and settled on:
 
 ```
 sudo chown -R brodie:admin /usr/local/bin
+sudo chown -R brodie:admin /usr/local/bin
 ```
 
 > This caused problems with the admin scripts that run on the DCE laptop, so
@@ -31,17 +32,37 @@ Actually ran into this issue again, possibly after some OSX upgrades.  This
 time, it was because I couldn't uninstall things in /usr/local/bin even though I
 had rwx to them because /usr/local/bin itself was root.
 
-
-run:
-```
-/usr/bin/ruby -e "$(curl -fsSL
-https://raw.githubusercontent.com/Homebrew/install/master/install)"
-```
-
-Turn off analytics:
+This time (3/21) I just temporarily set the owner to myself before setting back
+to root.
 
 ```
-brew analytics off
+sudo chown milberg /usr/local/bin
+sudo chown milberg /usr/local/share/pkgconfig
+
+sudo chown root /usr/local/bin
+sudo chown root /usr/local/share/pkgconfig
+
 ```
 
+Also, had to deal with:
+
+
+
+```
+Warning: your HOMEBREW_PREFIX is set to /usr/local but HOMEBREW_CELLAR is set
+to /usr/local/Homebrew/Cellar. Your current HOMEBREW_CELLAR location will stop
+you being able to use all the binary packages (bottles) Homebrew provides. We
+recommend you move your HOMEBREW_CELLAR to /usr/local/Cellar which will get you
+access to all bottles."
+```
+
+With[1]:
+
+```
+ brew bundle dump
+ rm -rf /usr/local/Homebrew/Cellar
+ brew bundle
+```
+
+[1]: https://github.com/Homebrew/brew/issues/2457
 

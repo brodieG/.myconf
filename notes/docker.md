@@ -105,7 +105,7 @@ cd /opt/<pkg_name>
 
 ## Winston Chang Docker
 
-[https://hub.docker.com/r/wch1/r-debug/](docker-hub).
+[docker-hub](https://hub.docker.com/r/wch1/r-debug/).
 
 Lots of goodies there.
 

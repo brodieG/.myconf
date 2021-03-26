@@ -14,20 +14,18 @@ summary(result)
 ```
 
 Main issue we've run into is that automatic rev dep install is from sources,
-which is a pain (note: don't remember why).
+which is a pain because in many cases source builds require system libraries to
+be present.  We do need source packages for what's being tested, but we should
+be able to install other stuff from binaries.
 
-Uh, dunno, actually may need source packages, plus check packages installs
-anyway...  Actually, what we need to do is get all the dependencies of our
-dependencies, and install those as "both", without tests, and then let revdep do
-its thing.  This does mean we'll install our packages twice.
+Question: does `tools::check_packages_in_dir` insist on installing all recursive
+dependencies even when present?  Seems like it does.  It's not satisfied with
+with checking whether something is already in the library.  It always
+re-installs everything from source.
 
-One thing I've tried is to run the `reverse = list()` option, and then for all
-the dependencies that failed to install, manually install the packages.  But
-that doesn't seem to work very well because when we try to run
-`tools::check_packages_in_dir` it only checks the non-revdep packages, but when
-we ask it to do the reverse it goes crazy and tries to check all the revdeps?.
-Actually, seems okay.  Looks like it only gets what it needs, so when we
-manually download files we're okay.
+**However**, if we can bear the time it takes to do this it is okay because the
+installs from binary will still be present and work after the installs from
+source fails.
 
 So tentative ideal process is:
 
@@ -44,16 +42,6 @@ risk of someone maliciously adding a suggests.
 
 Testing to see if we can install test with binary; don't recall what happened
 here.
-
-```
-pkg <- 'ricu'
-install.packages(
-  pkg, lib='./Library', repos='https://cloud.r-project.org', 
-  # type="binary", 
-  INSTALL_opts="--install-tests"
-)
-tools::testInstalledPackage(pkg, lib.loc='./Library')
-```
 
 ## Getting revdeps
 
@@ -91,12 +79,24 @@ rev.rev <- clean_name(rev.rev)
 rev.rev <- rev.rev[!rev.rev == 'R']
 
 
+# this was from a lazy run for diffobj where we tried dumbly first, and saw the
+# failed packages
+rev.rev <- c('keyring', 'sf', 'tigris', 'rgeos')
 install.packages(
   rev.rev, lib='./Library', repos='https://cloud.r-project.org', type="binary"
 )
 
 ```
 
+## r-lib::revdepcheck
+
+Works relatively well and seems to use the binaries.  Can also specify number of
+workers directly.  Just requires a lot of packages, including non-CRAN ones.
+
+Additionally, it needs to install everything from source if running in docker,
+so takes a while to even get `revdepcheck` setup.  Not sure if we can avoid
+source install in docker?  We should be able with Maruter or the Rstudio
+repo, but at least Maruter is only 4.0?
 
 ## Docker Container
 
