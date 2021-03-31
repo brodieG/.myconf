@@ -1,68 +1,5 @@
 ## General Notes
 
-Wincent tried to do this (big endian on OS X) and failed, but took notes[6].
-
-```
-qemu-img create -f qcow2 ubuntu-20.04.2.0-desktop-amd64.qcow2 10G
-qemu-system-x86_64 \
-    -machine type=q35,accel=hvf \
-    -smp 2 \
-    -hda ubuntu-20.04.2.0-desktop-amd64.qcow2 \
-    -cdrom ./ubuntu-20.04.2.0-desktop-amd64.iso \
-    -m 2G \
-    -vga virtio \
-    -usb \
-    -device usb-tablet \
-    -display default,show-cursor=on
-```
-
-This worked, without even having to specify architecture.
-
-Now, let's try the power pc image from the Kalibera post[2].  Can't accelerate
-here since archs are different.
-
-```
-qemu-img create -f qcow2 ubuntu-18.04-server-cloudimg-ppc64el.qcow2 10G
-
-qemu-img resize ubuntu-18.04-server-cloudimg-ppc64el.img 10G
-qemu-system-ppc64 \
-    -cpu power9 \
-    -nographic \
-    -smp 2 \
-    -m 2G \
-    -L pc-bios -boot c \
-    -hda ubuntu-18.04-server-cloudimg-ppc64el.img \
-    -device e1000,netdev=net0 -netdev user,id=net0,hostfwd=tcp::5555-:22
-
-# this did something, but complaining about SCSI reading past end of file...
-
-qemu-img resize ubuntu-18.04-server-cloudimg-ppc64el.img 10G
-qemu-system-ppc64 \
-    -cpu power9 \
-    -nographic \
-    -smp 2 \
-    -m 2G \
-    -L pc-bios -boot c \
-    -hda ubuntu-18.04-server-cloudimg-ppc64el.img \
-    -drive file=cloud-init.iso,format=raw \
-    -device e1000,netdev=net0 -netdev user,id=net0,hostfwd=tcp::5555-:22
-
-# This does not work vv, but ^^ this does?
-
-qemu-system-ppc64 \
-    -cpu power9 \
-    -nographic \
-    -smp 2 \
-    -m 2G \
-    -L pc-bios -boot c \
-    -hda ubuntu-18.04-server-cloudimg-ppc64el.qcow2 \
-    -device e1000,netdev=net0 -netdev user,id=net0,hostfwd=tcp::5555-:22
-```
-
-This worked, but we do need to set the password.  Also, only worked with the
-.img version, so who knows what will happen if we try to do anything that
-occupies any space.
-
 [Urban Penguin][4] has some info on maybe using cloud-config, but need to figure
 out how to do that on OS X.
 
@@ -71,32 +8,135 @@ even enough info that I can figure out how to get it to work on OS X.  If that
 fails, we can try to use this strategy to have another way of setting the
 username/password info in Ubuntu.
 
-Eh, this looks hard (assembling the ISO), but not impossible.  We're going to
-try to do the cloud config business in vagrant.
+## Big Endian
 
+Wincent tried to do this (big endian on OS X) and failed, but [took notes][6].
 
+Looks like debian is no longer [directly publishing][7] an big endian PPC image:
+
+> Currently, Big Endian PowerPC architectures (powerpc/ppc64) are only
+> classified as ports within Debian (a.k.a Debian Ports), meaning neither are an
+> officially supported architecture. 32-bit PowerPC (powerpc) was an officially
+> supported architecture, with a 64-bit kernel available, until the release of
+> Debian 9 (codenamed Stretch). As a result the only way to run Debian on
+> PowerPC is to use to either used the currently supported Debian 8 (codenamed
+> Jessie) or the unstable branch known as Sid. 
+
+[ARM not much help][8]:
+
+> Technically, all currently available ARM CPUs can be run in either endian mode
+> (big or little), but in practice the vast majority use little-endian mode. All
+> of Debian/arm64, Debian/armhf and Debian/armel support only little-endian
+> systems. 
+
+A [Stephan Brumme post][9] links to an [ancient debian][10] image we might be
+able to use.
+
+Trying Aurélien's image:
 
 ```
-# old stuff
+The other installation options are the following:
+  - Keyboard:       US
+  - Locale:         en_US
+  - Mirror:         ftp.debian.org
+  - Hostname:       debian-powerpc
+  - Root password:  root
+  - User account:   user
+  - User password:  user
+```
 
-    -hda ./ubuntu-18.04-server-cloudimg-ppc64el.qcow2 \
-    -machine type=powernv \
+```
+qemu-system-ppc -hda debian_wheezy_powerpc_standard.qcow2 \
+    -nographic \
+    -device e1000,netdev=net0 -netdev user,id=net0,hostfwd=tcp::5555-:22
+```
 
-qemu-system-ppc64le \
-  -smp 8 \
-  -m 8192 \
-  -cpu power9 \
+Hmm, worked fine except that none of the packages were present, and we don't
+even have gcc so that really doesn't work.  Many of the links in the apt are
+dead.
+
+## MIPS
+
+[Markuta][11] has a guide for buidling MIPS using the [Malta images from
+debian][12].  Oddly an exact copy of the post is published under [Hidrasky][13]
+
+After downloading the images:
+
+```
+qemu-img create -f qcow2 hda.img 2G
+
+qemu-system-mips -M malta \
+  -m 256 -hda hda.img \
+  -kernel vmlinux-4.19.0-16-4kc-malta \
+  -initrd initrd.gz \
+  -append "console=ttyS0 nokaslr" \
+  -nographic
+```
+
+The install takes forever.
+
+**Remember to record root and user name/passwords**
+
+Once we hit the "Installation is complete" dialog we need to kill the VM and
+edit the image so it doesn't restart in install mode.
+
+These are straight from Markuta:
+
+Mount the boot partition of the image file.  Not sure what this is doing
+exactly.  Seems like the easiest thing to do will be to try to do this via
+vagrant so we can use nbd and not have to figure out the equivalent.  Should be
+okay since we just want to grab the file.
+
+```
+sudo modprobe nbd max_part=63      # init nbd mount?
+sudo qemu-nbd -c /dev/nbd0 hda.img # copy the image to the mount
+sudo mount /dev/nbd0p1 /mnt        # mount partition one onto /mnt/
+```
+
+Copy a single file or the entire folder to the current directory:
+
+```
+cp -r /mnt/boot/initrd.img-4.19.0-16-4kc-malta .
+
+# cp -r initrd.img-4.9.0-6-4kc-malta .            # copy only initrd.img file
+# cp -r /mnt/boot .                               # copy the entire boot folder
+```
+
+Unmount the image:
+
+```
+sudo umount /mnt
+sudo qemu-nbd -d /dev/nbd0
+```
+
+And run:
+
+```
+qemu-system-mips -M malta \
+  -m 256 -hda hda.img \
+  -kernel vmlinux-4.19.0-16-4kc-malta \
+  -initrd initrd.img-4.19.0-16-4kc-malta \
+  -append "root=/dev/sda1 console=ttyS0 nokaslr" \
   -nographic \
-  -hda ubuntu-18.04-server-cloudimg-ppc64el.img -L pc-bios -boot c \
-  -device e1000,netdev=net0 -netdev user,id=net0,hostfwd=tcp::5555-:22
+
+
+  -device e1000-82545em,netdev=user.0 \
+  -netdev user,id=user.0,hostfwd=tcp::5555-:22  # should be brodie?
 ```
 
-We're going to try to run QEMU on OSX, but we'll use the ubuntu vagrant image to
-configure it (can't get this to work due to:
+The only visible difference I see here is:
+
+    -initrd initrd.img-4.9.0-6-4kc-malta \
+
+Which seems to correspond to that single file.
 
 
+## Making Image as per Urban Penguin
 
-### Making Image as per Urban Penguin
+> We're configuring the image in Ubuntu, but running it via QEMU on OS X.
+
+Now, let's try the power pc image from the Kalibera post[2].  Can't accelerate
+here since archs are different.
 
 I could not get `virt-customize` from Tomas's instructions[2] to work:
 
@@ -161,4 +201,10 @@ brew install qemu  # remember the chown back and forth stuff
 [4]: https://www.theurbanpenguin.com/using-cloud-images-in-kvm/
 [5]: https://sumit-ghosh.com/articles/create-vm-using-libvirt-cloud-images-cloud-init/
 [6]: https://wincent.com/wiki/Using_QEMU_to_test_big-endian_code_on_Intel-powered_OS_X
-
+[7]: https://wiki.powerprogress.org/DebianPowerPcStartersManual
+[8]: https://www.debian.org/releases/stable/arm64/ch02s01.en.html
+[9]: https://create.stephan-brumme.com/big-endian/
+[10]: https://people.debian.org/~aurel32/qemu/powerpc/
+[11]: https://markuta.com/how-to-build-a-mips-qemu-image-on-debian/
+[12]: http://ftp.debian.org/debian/dists/stable/main/installer-mips/current/images/malta/netboot/
+[13]: https://hydrasky.com/linux/build-a-debian-mips-image-on-qemu/
