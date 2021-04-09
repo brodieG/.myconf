@@ -1,3 +1,5 @@
+## gcc
+
 To inspect things binary object, first make sure that the compilation occurs
 with the friendliest symbols possible, like:
 
@@ -23,4 +25,11 @@ For disassembly it might be easier to use the o files directly:
 
     objdump -d src/main/print.o | less   # 
     objdump -t src/main/print.o | less   # 
+
+
+## clang/OS X
+
+Can't quite figure out how to get line numbers and all that nicely.
+
+    objdump -drSt --x86-asm-syntax intel a.out
 
