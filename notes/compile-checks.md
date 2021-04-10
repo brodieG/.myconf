@@ -15,11 +15,13 @@ Last one is to try to make sure we run in real C99 to avoid issues with BDR.
 ## Valgrind
 
 Currently we run valgrind by using `RDvalgrind` binary that comes with the
-wch-rdebug docker container.  See the docker notes.
+wch-rdebug docker container.  See the docker / valgrind notes.
 
 ## UBSAN
 
 Currently we run UBSAN by using the RD binary that comes with wch/r-debug.
+
+See notes/ubsan.md for UBSAN for R-devel patches proper.
 
 ## Rchk
 

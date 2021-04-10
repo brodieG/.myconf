@@ -7,7 +7,8 @@ Starting with [Ushey post][2]
 *UPDATE*: we really need to use the instrumented version of R as in WCHs docker
 containers, b/c otherwise we don't replicate what CRAN does.
 
-Another option is `rchk` image, which works well.  Basic config:
+Another option is `rchk` image, which works well.  Basic config (see full
+version later with suppressions, etc.):
 
     ./configure --with-valgrind-instrumentation=2
     make
@@ -15,7 +16,8 @@ Another option is `rchk` image, which works well.  Basic config:
 
 BDR provides a [valgrind config][1] that includes a suppression file and fuller
 config directives which we've copied in to 'r-valgrind.supp' and symlinked into
-the rchk vagrant trunk folder.
+the rchk vagrant trunk folder (err, not sure if this is true, but can make it
+easy enough)..
 
 Note that the `setenv` instructions are for specific shell type (not Bash).
 
