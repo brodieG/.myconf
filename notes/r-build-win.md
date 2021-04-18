@@ -20,7 +20,7 @@ install can be found.
 Things to modify:
 
 * quick-build.sh so it doesn't nuke the R directory every time
-* Mkrules.local.in:
+* Mkrules.local.in (this is in r-base, not in the sources):
     * DEBUG = TRUE
     * EOPTS = -O0          << and any other CFLAGS!
     * no recommended?
@@ -41,6 +41,16 @@ tortoise.
 
 ## Subversion
 
-Can use tortoise, but gitbash might have it installed.
+Can use tortoise, haven't figured out how to use it from command line.
 
+## ssh-agent
+
+git bash has it, but use:
+
+    eval $(ssh-agent -s)
+
+The other options in [1] didn't seem to work.  It's possible it had to be a mix
+of all of these to get it to work.  Actually worked after doing this last one.
+
+[1]: https://stackoverflow.com/a/18683544
 
