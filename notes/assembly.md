@@ -26,6 +26,11 @@ For disassembly it might be easier to use the o files directly:
     objdump rowsum3.o -drSt -M intel
     objdump colsum.o -drSt -M intel
 
+    objdump int-rowsum.o -dlrSt -M intel > int-rowsum.asm
+
+    // for a static file, this works well
+    objdump -Sltr --no-show-raw-insn array.o -M intel | less
+
 Comment out source lines for syntax highlighting:
 
     %s/^\(\s\+[0-9a-f]\+:\)\@!/# \1/gc
