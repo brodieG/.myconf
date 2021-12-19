@@ -14,8 +14,8 @@ to overwrite the compilation flags set by 'cmpconfig.inc'?
 
 ## Vagrant Config
 
-Easiest set up I've figured is to use the vagrant image , although initial set-up takes
-forever because it requires building R, getting ubuntu 16.xx, etc.
+Easiest set up I've figured is to use the vagrant image , although initial
+set-up takes forever because it requires building R, getting ubuntu 16.xx, etc.
 
 1. Clone https://github.com/kalibera/rchk into vagrant folder.
 2. cd into that folder (the `image` folder)

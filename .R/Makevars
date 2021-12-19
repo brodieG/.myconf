@@ -6,7 +6,7 @@
 # CFLAGS = -O0 -Wall -std=c99 -pedantic -Wextra -D_ANSI_SOURCE
 # CFLAGS += -fno-common -std=gnu99 -pedantic -Wall -emit-llvm -S
 # CFLAGS += -fno-common -std=gnu99 -pedantic -Wall -emit-llvm -S -mllvm --x86-asm-syntax=intel
-CFLAGS += -fno-common -std=gnu99 -pedantic -Wall
+CFLAGS += -fno-common -std=c99 -pedantic -Wall -Wextra
 
 # # Output assembler in intel syntax
 # CFLAGS += -S -masm=intel -O0

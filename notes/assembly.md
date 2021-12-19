@@ -30,6 +30,7 @@ For disassembly it might be easier to use the o files directly:
 
     // for a static file, this works well
     objdump -Sltr --no-show-raw-insn array.o -M intel | less
+    objdump -Sltr --no-show-raw-insn array.o -M intel | less
 
 Comment out source lines for syntax highlighting:
 

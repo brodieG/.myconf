@@ -11,17 +11,24 @@ if(interactive()) {
     blogdown.hugo.server = c('-D', '-F', '--disableLiveReload'),
     blogdown.new_bundle = TRUE
   )
-  di <- function(x = ".", tests=FALSE) {
+  di <- function(x = ".", full=TRUE, tests=FALSE) {
     x <- normalizePath(x)
     dirname <- basename(x)
     pkg <- sprintf("package:%s", dirname)
     det <- try(detach(pkg, unload=TRUE, character.only=TRUE))
-    if(inherits(det, "try-error")) warning("Can't unload pkg; maybe not loaded?")
-    if(tests)
-      install.packages(repos=NULL, x, type="src", INSTALL_opts="--install-tests")
-    else install.packages(repos=NULL, x, type="src")
+    iopts <- c(
+      if(!full)
+        c(
+          "--no-byte-compile", "--no-docs", "--no-help", "--no-html",
+          "--no-lock", "--no-test-load"
+        ),
+      if(tests) "--install-tests"
+    )
+    install.packages(repos=NULL, x, type="src", INSTALL_opts=iopts)
     library(dirname, character.only=TRUE)
   }
+  di0 <- function(x = '.') di(x, full=FALSE)
+
   rr <- roxygen2::roxygenize
 
   # cd <- function(x=.Last.value) {

@@ -7,7 +7,7 @@ other user management scripts.
 So instead we try (last tried on 3/2021):
 
 ```
-sudo chown milberg:admin /usr/local/Homebrew
+sudo chown milberg:admin /usr/local/Homebrew  # run just once
 sudo chown milberg /usr/local/bin
 sudo chown milberg /usr/local/share/pkgconfig
 

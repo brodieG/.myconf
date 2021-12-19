@@ -23,14 +23,6 @@ Note that the `setenv` instructions are for specific shell type (not Bash).
 
 So, to run (check instructions for updates):
 
-Configured by:
-
-    ./configure -C --with-valgrind-instrumentation=2 --with-system-valgrind-headers
-
-Or:
-
-    ./configure -C --with-valgrind-instrumentation=2 --with-system-valgrind-headers --with-recommended-packages=no
-
 With config.site:
 
     CFLAGS="-g -O2 -Wall -pedantic -mtune=native"
@@ -38,9 +30,14 @@ With config.site:
     FFLAGS="-g -O2 -mtune=native"
     FCFLAGS="-g -O2 -mtune=native"
 
+Configure **REMEMBER config.site**:
+
+    ./configure -C --with-valgrind-instrumentation=2 --with-system-valgrind-headers --with-recommended-packages=no
+
+
 And environment variables (seem to be runtime, at least the TK one)
 
-    RJAVA_JVM_STACK_WORKAROUND=0 R_DONT_USE_TK=true LC_CTYPE=en_US.utf8 ./bin/R -d "valgrind --suppressions=./r-valgrind.supp"
+    RJAVA_JVM_STACK_WORKAROUND=0 R_DONT_USE_TK=true LC_CTYPE=en_US.utf8 ./bin/R -d "valgrind --suppressions=./r-valgrind.supp --track-origins=yes" --no-restore --no-save
 
 
 ## Packages:
