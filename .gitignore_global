@@ -4,6 +4,7 @@
 .*
 !.travis.yml
 !.Rbuildignore
+*.Rcheck
 *.Rproj
 *.tar.gz
 *.o
@@ -11,5 +12,6 @@
 *.sw?
 *.Rout
 *.Rout.fail
+revdep
 __Scratch__
-scratch.R
+scratch.*

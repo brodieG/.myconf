@@ -10,6 +10,9 @@
 
 ## Quick build
 
+Note: older versions may need older compilers (had issues with qnbinom multiple
+definitions with gcc-10 (or so it seemed)).
+
     make distclean && ./configure --with-recommended-packages=no
     make distclean && ./configure --with-recommended-packages=no\
       --disable-byte-compiled-packages
@@ -33,9 +36,9 @@ In `config.site` (looks like `make clean` or `make distclean` required to get
 changes to register), otherwise need to use envvars.
 
     CC="gcc-10"
-    CFLAGS="-g -O2 -Wall -Wpedantic -std=gnu99" 
+    CFLAGS="-g -O2 -Wall -Wextra -pedantic -std=gnu99" 
 
-Or
+Or (note pedantic flag different)
 
     CC="clang-10"
     CFLAGS="-g -O2 -Wall -Wpedantic -std=gnu99" 
