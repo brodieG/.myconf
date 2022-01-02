@@ -34,7 +34,7 @@ Additionally, if there are install failures or whatever, `revdepcheck` will
 report everything is fine because failures happened in both original version of
 package and new one, which is silly.  It doesn't check against CRAN.
 
-See revdep-docker.Rmd.
+> See revdep-docker.Rmd, and bspm comments later in this page.
 
 ## Manual Approach
 

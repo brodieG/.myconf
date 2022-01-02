@@ -3,6 +3,8 @@
 Objective is to create a re-usable docker container with all required system
 dependencies that we can re-use to do revdeps.
 
+> See revdep.Rmd for generic usage comments.
+
 # Strategy
 
 * Use bspm to install all the packages first so that they system dependencies
@@ -12,13 +14,19 @@ dependencies that we can re-use to do revdeps.
   to re-install all the packages, but that's okay, we just want to use bspm to
   get the dependencies.
 
+Note, we ended up going with `rspm` rocker b/c of the `revdepcheck` issues we
+had, but it's not obvious `bspm` was actually the problem.
+
 # Creating a Permanent Docker Container
 
+## Starting with Basic Container
 
-# Starting with Basic Container
+> It took ~10 hours to do the revdeps for 26 packages; what is going on with
+> that?  Possibly not enough RAM causing us to hit swap?  Need more RAM for
+> docker?
 
 Maybe not the best idea to start with this if we intend to do with the Rstudio
-package manager given this traces the package.
+package manager given this traces the package (we eventually shifted to rspm).
 
 ```
 docker pull rocker/r-bspm:20.04
