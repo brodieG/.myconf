@@ -1,0 +1,92 @@
+# Reverse Dependencies in Docker
+
+Objective is to create a re-usable docker container with all required system
+dependencies that we can re-use to do revdeps.
+
+# Strategy
+
+* Use bspm to install all the packages first so that they system dependencies
+  are pulled in.
+
+* Use Rstudio revdepcheck testing second?  This will use the cache, so will try
+  to re-install all the packages, but that's okay, we just want to use bspm to
+  get the dependencies.
+
+# Creating a Permanent Docker Container
+
+
+# Starting with Basic Container
+
+Maybe not the best idea to start with this if we intend to do with the Rstudio
+package manager given this traces the package.
+
+```
+docker pull rocker/r-bspm:20.04
+docker run -ti -v $(pwd):/mydir rocker/r-bspm:20.04  # no --rm
+```
+
+See 'revdep.Rmd' to get list of packages to install.
+
+Then we tried to manually install all the dependencies.  Many got built from
+source, but didn't take too long (probably over an hour though).
+
+We got several outright failures, such as `units`, which just re-installing
+worked, and `sf` which died complaining about `gdal`.  Used:
+
+```
+apt-get update
+apt-get install libgdal-dev libproj-dev
+```
+
+Then in R:
+
+```
+install.packages(c('s2', 'sf', 'lwgeom', 'sfnetworks'))
+```
+
+Some packages were bioconductor, and we didn't bother with those.
+
+Then:
+```
+remotes::install_github("r-lib/revdepcheck")
+bspm::disable()  # to possible conflicts (not checked if this is a problem)
+```
+
+Note, disable does not actually disable bpsm(), we need to remove it from the
+`/etc/R/Rprofile.site` file because e.g. `revdepcheck` launches sub-processes
+that will read that file.
+
+It seems BPSM might be causing packages to be installed from the wrong R
+version.
+
+Okay, we gave up on BPSM, trying r-rspm.  Revdep check mysteriously failing.
+
+```
+docker pull rocker/r-rspm:20.04
+docker run -ti -v $(pwd):/mydir rocker/r-rspm:20.04  # no --rm
+apt-get install libgdal-dev libproj-dev libmagick++-dev
+```
+
+Upon further research the most likely source of failure seems to be a timeout
+that causes all packages after timeout to fail[2].
+
+# Installing BPSM
+
+From [1], although maybe not necessary if we start with a bpsm container.
+
+```
+sudo add-apt-repository ppa:marutter/rrutter4.0   # R v4.0 and higher
+sudo add-apt-repository ppa:c2d4u.team/c2d4u4.0+  # R packages
+sudo apt-get update
+sudo apt-get install r-cran-bspm python3-{dbus,gi,apt}
+```
+
+We might not want this; one question is if we don't do this, future installs
+still benefit from the installed system packages.
+
+```
+echo "bspm::enable()" | sudo tee -a /etc/R/Rprofile.site
+```
+
+[1]: https://enchufa2.github.io/bspm/slides/20210709-useR2021_talk.html#20
+[2]: https://github.com/r-lib/revdepcheck/issues/213

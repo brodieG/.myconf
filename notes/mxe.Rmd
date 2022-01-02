@@ -1,0 +1,168 @@
+# MXE
+
+This is done under vagrant.
+
+## Install
+
+Make sure we have enough room.  /dev/sda1 has 33G here, so probably okay?
+
+```
+vagrant@vagrant:~$ df -h
+Filesystem       Size  Used Avail Use% Mounted on
+udev             3.9G     0  3.9G   0% /dev
+tmpfs            797M  940K  796M   1% /run
+/dev/sda1         39G  6.4G   33G  17% /
+```
+
+## Interacting with MXE
+
+It seems the way to do so is by modifying the `mxe/src/*.mk` files and/or by
+adding `mxe/src/*-1-fixes.patch` files which presumably MXE applies prior to
+building.  This does not seem directly documented by MXE though.
+
+Log files are in ./log, and we can e.g.:
+
+    tail -f log/openblas_i686-w64-mingw32.static
+
+## Swap
+
+`libv8` crashed with:
+
+    c++: fatal error: Killed signal terminated program cc1plus
+
+Which is an OOM memory.  VM by default does not have swap, add one with:
+
+   95  sudo swapon --show
+   96  sudo fallocate -l 4G /swapfile
+   97  sudo chmod 600 /swapfile
+   98  sudo mkswap /swapfile
+   99  sudo swapon /swapfile
+  101  sudo vim /etc/fstab  ## paste following line
+       /swapfile swap swap defaults 0 0
+  102  sudo swapon --show
+
+Based on https://linuxize.com/post/how-to-add-swap-space-on-ubuntu-18-04/
+
+## Patching a Package
+
+1. Make a copy of the target package
+2. And another
+3. Apply patches if any
+4. Add additional changes
+5. Generate new patch
+6. Create/Overwrite src/... patch files
+
+    324  mkdir spatialite-tmp
+    325  cd spatialite-tmp/
+    326  tar xf ../libspatialite-5.0.1.tar.gz 
+    327  ls
+    328  mv libspatialite-5.0.1{,-orig}
+    330  tar xf ../libspatialite-5.0.1.tar.gz 
+    331  mv libspatialite-5.0.1{,-new}
+    333  cd libspatialite-5.0.1-new/
+    334  patch -p1 < ../../../src/spatialite-1-fixes.patch 
+    339  diff -ru *-{old,new} > new.patch
+    ## use -Nru if deleting file
+    ## Important to do the diff from the common parent directory so we can then
+    ## ignore with `patch -p1`
+
+## PostgresSQL
+
+### DLL's being built
+
+An override is being added in some places.  Search for the -DBUILD_DLL (or some
+such, look at the logs for the actual flag, this is from memory).
+
+### utils/errcodes.h
+
+An early VPATH build break issue:
+
+    https://www.postgresql.org/message-id/AANLkTik%3DAkNAU6%2BL1PnUuqjeByqbqAnAGDZjLfGeqTey%40mail.gmail.com
+
+Changes in (2011) to aggregate all error codes:
+
+    git diff ddfe26f6441c24660595c~1 ddfe26f6441c24660595c
+
+In particular this demonstrates the intent is to copy the file, but it's not
+happening for some reason?  This is part of the visual studio code:
+
+```
+diff --git a/src/tools/msvc/Solution.pm b/src/tools/msvc/Solution.pm
+index b737e1ed9f..950e12b1f4 100644
+--- a/src/tools/msvc/Solution.pm
++++ b/src/tools/msvc/Solution.pm
+@@ -273,6 +273,19 @@ s{PG_VERSION_STR "[^"]+"}{__STRINGIFY(x) #x\n#define __STRINGIFY2(z) __STRINGIFY
+         );
+     }
+ 
++    if (IsNewer('src\include\utils\errcodes.h','src\backend\utils\errcodes.txt'))
++    {
++        print "Generating errcodes.h...\n";
++        system("perl src\backend\utils\generate-errcodes.pl src\backend\utils\errcodes.txt > src\backend\utils\errcodes.h");
++        copyFile('src\backend\utils\errcodes.h','src\include\utils\errcodes.h');
++    }
++
++    if (IsNewer('src\pl\plpgsql\src\plerrcodes.h','src\backend\utils\errcodes.txt'))
++    {
++        print "Generating plerrcodes.h...\n";
++        system("perl src\pl\plpgsql\src\generate-plerrcodes.pl src\backend\utils\errcodes.txt > src\pl\plpgsql\src\plerrcodes.h");
++    }
++
+     if (IsNewer('src\interfaces\libpq\libpq.rc','src\interfaces\libpq\libpq.rc.in'))
+     {
+         print "Generating libpq.rc...\n";
+```
+
+This code still exists.  Not clear how other distros work.
+
+No question the file is supposed to be in "src/includes".
+
+Also around the same time as above this existed:
+
+    diff --git a/src/include/Makefile b/src/include/Makefile
+    index 3701ad0541..0d5f04932b 100644
+    --- a/src/include/Makefile
+    +++ b/src/include/Makefile
+    @@ -40,6 +40,7 @@ install: all installdirs
+     # These headers are needed for server-side development
+            $(INSTALL_DATA) pg_config.h    '$(DESTDIR)$(includedir_server)'
+            $(INSTALL_DATA) pg_config_os.h '$(DESTDIR)$(includedir_server)'
+    +       $(INSTALL_DATA) utils/errcodes.h '$(DESTDIR)$(includedir_server)/utils'
+            $(INSTALL_DATA) utils/fmgroids.h '$(DESTDIR)$(includedir_server)/utils'
+     # We don't use INSTALL_DATA for performance reasons --- there are a lot of files
+            cp $(srcdir)/*.h '$(DESTDIR)$(includedir_server)'/ || exit; \
+
+This might just be moving stuff from src/include to the installation directory,
+not into src/include.
+
+More recently we see a very similar issue, also relating to VPATH build:
+
+    https://www.postgresql.org/message-id/1145143.1599270556%40sss.pgh.pa.us
+
+Right now it seems the issue is that the `submake-generated-headers` is not
+being run generated.  Looks like the MAKELEVEL variable is set to 2.
+
+## Postgresql Issues
+
+Seems like maybe `libpq` no longer includes stuff in `libpgport` and that's
+causing issues?  But this appears to have been the case in 9.2.4 also.  Could
+check if with the old version we still have `libpgport` installed in some way.
+Not sure why this would have worked before since `qt` does not include
+`libpgport` anyway, but I guess it was still getting the symbols before somehow?
+
+https://github.com/jtv/libpqxx/issues/460
+
+Note the above comment has a git blame from ~2 months before 9.2.4, so it's
+possible the underlying transition was still underway.  Actually, that change
+was just to add same treatment to `libpgcommon`, so might not be a change at
+all.
+
+Other interesting things are all these flag errors (not sure if they were there
+before):
+
+    configure: WARNING: unrecognized options: --enable-static, --disable-shared, --enable-doc, --enable-gtk-doc, --enable-gtk-doc-html, --enable-gtk-doc-pdf, --with-html-dir, --disable-doxygen, --without-krb5 
+
+We'll start by just re-allowing the binary file, which maybe is why qt worked
+originally.
+
+

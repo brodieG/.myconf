@@ -106,6 +106,8 @@ rev <- unname(unlist(strsplit(deps[!is.na(deps)], ", ")))
 ##   INSTALL_opts="--install-tests"
 ## )
 
+## Things that didn't install
+rev[!rev %in% rownames(installed.packages())]
 
 deps.rev <- unlist(
   subset(db, Package %in% rev)[
