@@ -1,4 +1,42 @@
-# Reverse Dependencies
+# Reverse Dependency checks
+
+## r-lib::revdepcheck
+
+Works relatively well and seems to use the binaries.  Can also specify number of
+workers directly.  Just requires a lot of packages, including non-CRAN ones.
+
+Additionally, it needs to install everything from source if running in docker,
+so takes a while to even get `revdepcheck` setup.  Not sure if we can avoid
+source install in docker?  We should be able with Maruter or the Rstudio
+repo, but at least Maruter is only 4.0 (but shouldn't matter for revdeps,
+unless we get unlucky with a bad interaction)?
+
+Update: we ran in the Rocker `rspm` container and that seemed to help.  We also
+tried with `bspm`, but ran into (possibly `revdepcheck` issues) and switched to
+see it would help (not clear that it did, not sure).
+
+Overall the experience was not ideal.  It seemed to work okay for some set of
+packages, but then it would get in a state where it would fail to run the tests,
+and simply pretend everything was fine.
+
+One of the reasons why this happened was the timeout, and possibly [crancache
+getting confused](https://github.com/r-lib/revdepcheck/issues/213).  Using:
+
+```
+revdepcheck::revdep_check(num_workers = 2, timeout = as.difftime(360,units = "mins"))
+```
+
+Helped for some, but not all.
+
+Eventually, had to manually run some myself (3 or 4 packages).
+
+Additionally, if there are install failures or whatever, `revdepcheck` will
+report everything is fine because failures happened in both original version of
+package and new one, which is silly.  It doesn't check against CRAN.
+
+See revdep-docker.Rmd.
+
+## Manual Approach
 
 [Mark's Blog](https://www.markvanderloo.eu/yaRb/2019/04/26/checking-reverse-dependencies-the-tiny-way/).
 
@@ -88,16 +126,6 @@ install.packages(
 
 ```
 
-## r-lib::revdepcheck
-
-Works relatively well and seems to use the binaries.  Can also specify number of
-workers directly.  Just requires a lot of packages, including non-CRAN ones.
-
-Additionally, it needs to install everything from source if running in docker,
-so takes a while to even get `revdepcheck` setup.  Not sure if we can avoid
-source install in docker?  We should be able with Maruter or the Rstudio
-repo, but at least Maruter is only 4.0?
-
 ## Docker Container
 
 Commentary from Dirk on how to get started:
@@ -109,6 +137,15 @@ Commentary from Dirk on how to get started:
 > (Ubuntu plus RSPM; no provision for sys.deps because, well, bspm does that
 > already, and better).
 
-And Mark:
+The BSPM thing looks like it's really what we want[1] as it resolves the system
+dependency issue, although does it work with r-devel?  I guess we don't need to
+do the revdeps on r-devel, although it is possible it could be a problem.
+
+We ended up giving up on this because it didn't seem to work well with
+`revdepcheck`, but it could just have been `revdepcheck` acting up.
+
+See revdep-docker.Rmd.
+
+[1]: https://dirk.eddelbuettel.com/blog/2020/08/26/
 
 
