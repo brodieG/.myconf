@@ -119,10 +119,21 @@ RD
 
 # Or, to run one of the other builds:
 RDvalgrind -d "valgrind --track-origins=yes"
-RDsan
+RDsan  # does not run UB, see below.
+RDcsan # does run UB
 RDstrictbarrier
 RDassertthread
 ```
+
+In order to correctly run `RDsan`, we need something like:
+
+```
+echo 'CC=gcc -std=gnu99 -fsanitize=undefined -fno-omit-frame-pointer' > \
+  ~/.R/Makevars &&
+  RDsan &&
+  rm ~/.R/Makevars
+```
+
 The --security-opt seccomp=unconfined is needed to use gdb in the container. Without it, you'll see a message like warning: Error disabling address space randomization: Operation not permitted, and R will fail to start in the debugger.
 
 To mount a local directory in the docker container:
