@@ -27,8 +27,10 @@ Things to modify:
 
 The rtools bashes have their own root structure.
 
-On Workspaces the files are in D:\Users\milberg\Documents (a.k.a. ~/Documents
-from rtools40 MSYS).
+Files are:
+
+* On Workspaces D:\Users\milberg\Documents (i.e. ~/Documents from rtools40 MSYS).
+* On Home PC they are at C:\rtools40\home
 
 ## Pacman
 

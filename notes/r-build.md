@@ -17,6 +17,15 @@ definitions with gcc-10 (or so it seemed)).
     make distclean && ./configure --with-recommended-packages=no\
       --disable-byte-compiled-packages
 
+To build the parser gram / bison files:
+
+    make distclean && ./configure --enable-maintainer-mode --with-recommended-packages=no
+
+This might require installing `noweb` to get past the `compiler` rebuild:
+
+    sudo apt-get noweb
+
+
 ## Other Useful Flags / Settings
 
 Maechler uses:
