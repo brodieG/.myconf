@@ -33,6 +33,18 @@ docker pull rocker/r-bspm:20.04
 docker run -ti -v $(pwd):/mydir rocker/r-bspm:20.04  # no --rm
 ```
 
+Actuallly, for restartable we might need something like:
+
+```
+docker run -ti --restart=always -v $(pwd):/mydir rocker/r-bspm:20.04  # no --rm
+```
+
+Which we can add with:
+
+```
+docker update --restart=always <container-hash>
+```
+
 See 'revdep.Rmd' to get list of packages to install.
 
 Then we tried to manually install all the dependencies.  Many got built from
