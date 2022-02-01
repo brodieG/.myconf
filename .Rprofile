@@ -29,7 +29,7 @@ if(interactive()) {
   }
   di0 <- function(x = '.') di(x, full=FALSE)
 
-  rr <- roxygen2::roxygenize
+  rr <- function(...) roxygen2::roxygenize(...)
 
   # cd <- function(x=.Last.value) {
   #   dep.val <- deparse(x, width=500)
