@@ -7,7 +7,7 @@ Starting with [Ushey post][2]
 *UPDATE*: we really need to use the instrumented version of R as in WCHs docker
 containers, b/c otherwise we don't replicate what CRAN does.
 
-Another option is `rchk` image, which works well.  Basic config (see full
+Another option is `rchk` image, which works well.  Basic usage (see full
 version later with suppressions, etc.):
 
     ./configure --with-valgrind-instrumentation=2
@@ -39,12 +39,14 @@ And environment variables (seem to be runtime, at least the TK one)
 
     RJAVA_JVM_STACK_WORKAROUND=0 R_DONT_USE_TK=true LC_CTYPE=en_US.utf8 ./bin/R -d "valgrind --suppressions=./r-valgrind.supp --track-origins=yes" --no-restore --no-save
 
-
 ## Packages:
 
 Once R is build, or available via docker, etc:
 
 > Make sure ~/.R/Makevars has -O0 setting
+
+Eh, not sure this is good advice.  In fact it might be bad in that some bad
+accesses only become apparent under optimized code?
 
 
 [1]: https://www.stats.ox.ac.uk/pub/bdr/memtests/README.txt

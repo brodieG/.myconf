@@ -2,6 +2,8 @@
 
 This is done under vagrant using the vagrant rchk image.
 
+See misc/mxe
+
 ## Install
 
 Make sure we have enough room.  /dev/sda1 has 33G here, so probably okay? (this
