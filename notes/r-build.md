@@ -1,30 +1,45 @@
-# Base Build
+# Build
 
-## Basic Setup
+## Recommended build
 
-    svn checkout https://svn.r-project.org/R/trunk/ trunk
+We've found we really want to build things out-of-tree, ultimately succumbing to
+good advice because of vagrant issues with in theory blocking system calls (e.g.
+mv) on shared folders.  So set-up the following in e.g. /etc/environment:
+
+    RBUILD="~/r-build"
+    RSRC="/vagrant/trunk"
+
+After restarting the shell, download the sources
+
+    svn checkout https://svn.r-project.org/R/trunk/ $RSRC
+    cd $RSRC
     svn cleanup --remove-unversioned
-    ./tools/rsync-recommended
-    ./configure                # with options
-    make
+    ./tools/rsync-recommended   # optional
 
-## Quick build
+Then configure from the build directory:
 
-Note: older versions may need older compilers (had issues with qnbinom multiple
-definitions with gcc-10 (or so it seemed)).
+    cd $RBUILD
+    $RSRC/configure
 
-    make distclean && ./configure --with-recommended-packages=no
-    make distclean && ./configure --with-recommended-packages=no\
-      --disable-byte-compiled-packages
+Or
+    $RSRC/configure --with-recommended-packages=no
+
+We've found that building of tree allows us to work around problems with vagrant
+and shared folders (we observed `mv` behave in a non-blocking way there starting
+in early 2022 breaking reg-packages.R).  So now we build in a separate build
+directory.
+
+Or better:
+
+    make distclean && $RSRC/configure --with-recommended-packages=no
 
 To build the parser gram / bison files:
 
-    make distclean && ./configure --enable-maintainer-mode --with-recommended-packages=no
+    make distclean && $RSRC/configure --enable-maintainer-mode --with-recommended-packages=no
 
-This might require installing `noweb` to get past the `compiler` rebuild:
+For bison we might require installing `noweb` to get past the `compiler` rebuild:
 
     sudo apt-get noweb
-
 
 ## Other Useful Flags / Settings
 

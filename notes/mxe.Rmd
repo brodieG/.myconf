@@ -1,10 +1,13 @@
 # MXE
 
-This is done under vagrant.
+This is done under vagrant using the vagrant rchk image.
+
+See misc/mxe
 
 ## Install
 
-Make sure we have enough room.  /dev/sda1 has 33G here, so probably okay?
+Make sure we have enough room.  /dev/sda1 has 33G here, so probably okay? (this
+was borderline for `gdal`).
 
 ```
 vagrant@vagrant:~$ df -h
@@ -13,6 +16,12 @@ udev             3.9G     0  3.9G   0% /dev
 tmpfs            797M  940K  796M   1% /run
 /dev/sda1         39G  6.4G   33G  17% /
 ```
+
+## Checkout
+
+Start from Tomas's work:
+
+https://svn.r-project.org/R-dev-web/trunk/WindowsBuilds/winutf8/ucrt3/toolchain_libs
 
 ## Interacting with MXE
 

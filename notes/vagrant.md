@@ -57,4 +57,10 @@ box until after I deleted all the previous boxes from Virtualbox directly, and
 then finally was able to get Bionic installed (recognized), even though the
 Vagrantfile was asking for that the whole time..
 
+## File System Issues
 
+c.a. 2/2022 we ran into filesystem issues where the mv command would behave
+non-blocking allowing code to resume execution before all files were moved, in
+particular sub-folders.  This happened on a host OS folder in /vagrant, and
+broke tests/reg-packages.R.  We now work around it by using out-of tree R builds
+(see r-build.md).

@@ -6,7 +6,7 @@ echo e199b1 | xxd -p -r | xxd -b
 echo 7ff00000 | xxd -p -r | xxd -b
 echo fc9a81808285 | xxd -p -r | xxd -b
 echo 0x7ff80000 | xxd -p -r | xxd -b
-echo 8f | xxd -p -r | xxd -b
+echo fa83838383 | xxd -p -r | xxd -b
 ```
 
 Decimal to hex to bin:
