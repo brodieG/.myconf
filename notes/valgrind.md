@@ -15,9 +15,8 @@ version later with suppressions, etc.):
     ./bin/R -d "valgrind --track-origins=yes"
 
 BDR provides a [valgrind config][1] that includes a suppression file and fuller
-config directives which we've copied in to 'r-valgrind.supp' and symlinked into
-the rchk vagrant trunk folder (err, not sure if this is true, but can make it
-easy enough)..
+config directives which we've copied in to 'r-valgrind.supp' in the trunk
+folder.
 
 Note that the `setenv` instructions are for specific shell type (not Bash).
 
@@ -33,7 +32,6 @@ With config.site:
 Configure **REMEMBER config.site**:
 
     ./configure -C --with-valgrind-instrumentation=2 --with-system-valgrind-headers --with-recommended-packages=no
-
 
 And environment variables (seem to be runtime, at least the TK one)
 
