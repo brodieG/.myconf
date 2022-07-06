@@ -16,7 +16,7 @@ First, set "config.site":
 
 Configure **REMEMBER config.site**:
 
-    $RBUILD/configure -C --with-valgrind-instrumentation=2 --with-system-valgrind-headers --with-recommended-packages=no
+    $RSRC/configure -C --with-valgrind-instrumentation=2 --with-system-valgrind-headers --with-recommended-packages=no
 
 And environment variables (seem to be runtime, at least the TK one)
 
