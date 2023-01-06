@@ -6,7 +6,7 @@ We've found we really want to build things out-of-tree, ultimately succumbing to
 good advice because of vagrant issues with in theory blocking system calls (e.g.
 mv) on shared folders.  So set-up the following in e.g. /etc/environment:
 
-    RBUILD="~/r-build"
+    RBUILD="/vagrant/home/r-build"
     RSRC="/vagrant/trunk"
 
 After restarting the shell, download the sources
