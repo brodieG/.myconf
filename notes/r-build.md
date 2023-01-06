@@ -22,7 +22,8 @@ Then configure from the build directory:
     $RSRC/configure
 
 Or
-    $RSRC/configure --with-recommended-packages=no
+
+    cd $RBUILD && $RSRC/configure --with-recommended-packages=no
 
 We've found that building of tree allows us to work around problems with vagrant
 and shared folders (we observed `mv` behave in a non-blocking way there starting
@@ -31,10 +32,12 @@ directory.
 
 Or better:
 
+    cd $RBUILD
     make distclean && $RSRC/configure --with-recommended-packages=no
 
 To build the parser gram / bison files:
 
+    cd $RBUILD
     make distclean && $RSRC/configure --enable-maintainer-mode --with-recommended-packages=no
 
 For bison we might require installing `noweb` to get past the `compiler` rebuild:

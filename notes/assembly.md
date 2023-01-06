@@ -36,6 +36,9 @@ Comment out source lines for syntax highlighting:
 
     %s/^\(\s\+[0-9a-f]\+:\)\@!/# \1/gc
 
+
+
+
 ## clang/OS X
 
 Can't quite figure out how to get line numbers and all that nicely.

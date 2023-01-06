@@ -10,7 +10,31 @@ We have both git bash and Rtools bash (and a few MinGW).  Use gitbash for git.
 * https://cran.r-project.org/bin/windows/Rtools/
 * https://github.com/r-windows/r-base#readme
 
+## Rtools 4.2
+
+Detailed instructions (see "Building R from source using Rtools42" section):
+
+https://svn.r-project.org/R-dev-web/trunk/WindowsBuilds/winutf8/ucrt3/howto.html
+
+Careful to stay in the single section.  There are similar passages in different
+sections so it's easy to end up accidentally running the wrong commands.
+
+There is a slightly confusing comment:
+
+> Set environment variables as follows (update MiKTeX installation directory in
+> the commands below if needed, this one is “non-standard” from an automated
+> installation described later below):
+
+AFAICT that the specified directory:
+
+    export PATH=/c/Program\ Files/MiKTeX/miktex/bin/x64:$PATH
+
+Is the standard one, or at least that's where my prior install had been.
+
 ## r-base
+
+At some point during transition to UCRT this started failing so we moved to the
+above.
 
 Use R-tools bash.
 
@@ -127,12 +151,6 @@ Check memory use around time of failure but there was plenty of RAM (not sure at
 exact time of failure).  Also saw failures happening when idle, which strongly
 suggests a timeout.  Seems to be working with RDC, and even in the non MSYS
 shell.  Maybe MSYS just doesn't report back activity?
-
-### Suggested Changes
-
-* The *. commands can get weird if there is detritus from previous runs.
-* The PT2H and timeout parameters might be too short.
-* Had to update libsqlite to get svn to work.
 
 
 [1]: https://stackoverflow.com/a/18683544

@@ -1,5 +1,7 @@
 # UBSAN
 
+## R Proper
+
 Compiler option, described in WRE 4.3.4[1]. Key is to set the right compiler
 options, works better with clang.  In 'config.site':
 
@@ -13,4 +15,10 @@ In practice, found this disappointing.  Got it to detect an integer overflow,
 but was not reporting some way OOB writes in an allocated array (maybe it
 can't?).
 
+## Packages
+
+Presumably done through ~/.R/Makevars
+
 [1]: https://cran.r-project.org/doc/manuals/R-exts.html#Using-Undefined-Behaviour-Sanitizer
+
+
