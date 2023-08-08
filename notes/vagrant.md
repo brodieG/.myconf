@@ -77,6 +77,11 @@ Then with:
     vagrant destroy
     VAGRANT_EXPERIMENTAL="disks" vagrant up
 
+This worked and we used it to make our disk 100GB, but that leaves very little
+for our other stuff.
+
+We can't shrink the size of the disk, but probably will need to.
+
 ## Vim
 
 Need a version of vim with clipboard:
