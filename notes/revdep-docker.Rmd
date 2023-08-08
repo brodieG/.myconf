@@ -7,6 +7,13 @@ dependencies that we can re-use to do revdeps.
 
 # Strategy
 
+## New
+
+* Run with rspm as that seems most likely to be compatible
+* Manually install system dependencies (some lists below)
+
+## Old
+
 * Use bspm to install all the packages first so that they system dependencies
   are pulled in.
 

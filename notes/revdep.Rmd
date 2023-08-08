@@ -148,6 +148,10 @@ We ended up giving up on this because it didn't seem to work well with
 
 See revdep-docker.Rmd.
 
+## r2u
+
+There is now also [r2u][2].
+
 [1]: https://dirk.eddelbuettel.com/blog/2020/08/26/
 
 
