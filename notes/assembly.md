@@ -37,12 +37,15 @@ Comment out source lines for syntax highlighting:
     %s/^\(\s\+[0-9a-f]\+:\)\@!/# \1/gc
 
 
-
-
 ## clang/OS X
 
 Can't quite figure out how to get line numbers and all that nicely.
 
     objdump -drSt --x86-asm-syntax intel a.out
 
+For the r2c business it's necessary to generate the dSYM and then instruments
+can find it, e.g. after generating the so at the top level we can generate the
+dSYM with:
+
+    dsymutil r2c-kny4n4pt1v.so -o r2c-kny4n4pt1v.dSYM
 
