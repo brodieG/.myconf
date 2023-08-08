@@ -17,7 +17,8 @@ can't?).
 
 ## Packages
 
-Presumably done through ~/.R/Makevars
+Presumably done through ~/.R/Makevars, but **requires** an R build with the
+libraries SAN functions baked in.
 
 [1]: https://cran.r-project.org/doc/manuals/R-exts.html#Using-Undefined-Behaviour-Sanitizer
 
