@@ -32,6 +32,11 @@ if(interactive()) {
 
   rr <- function(...) roxygen2::roxygenize(...)
 
+  maxchr <- function(x) {
+    maxchr <- max(as.integer(charToRaw(x)))
+    stopifnot(maxchr < 127)
+    maxchr
+  }
   # cd <- function(x=.Last.value) {
   #   dep.val <- deparse(x, width=500)
   #   overflow:::writeClip(dep.val)
