@@ -11,3 +11,4 @@
 [alias]
 	lg = log --pretty=format:\"%C(auto)%h %<(55,trunc)%s %C(blue) %<(6,trunc)%cd%C(auto)%d%Creset\" --graph --date=relative
         ad = !git add -u && git reset -- *.rds
+        wdiff = diff --word-diff=color
