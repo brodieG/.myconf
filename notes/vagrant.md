@@ -64,3 +64,32 @@ non-blocking allowing code to resume execution before all files were moved, in
 particular sub-folders.  This happened on a host OS folder in /vagrant, and
 broke tests/reg-packages.R.  We now work around it by using out-of tree R builds
 (see r-build.md).
+
+## Disk Size
+
+Trying to use what's described here:
+
+https://www.vagrantup.com/docs/disks/usage
+
+Then with:
+
+    vagrant halt
+    vagrant destroy
+    VAGRANT_EXPERIMENTAL="disks" vagrant up
+
+This worked and we used it to make our disk 100GB, but that leaves very little
+for our other stuff.
+
+We can't shrink the size of the disk, but probably will need to.
+
+## Vim
+
+Need a version of vim with clipboard:
+
+
+Also, need to forward x11 in the Vagrantfile.  We haven't done this yet because
+maybe it requires destroying the VM (not sure, probably shouldn't), but more
+importantly don't know if that creates a security problem, so we should read up
+on that before doing it.
+
+    sudo apt install -y vim-gtk3  

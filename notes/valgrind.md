@@ -22,6 +22,8 @@ And environment variables (seem to be runtime, at least the TK one)
 
     RJAVA_JVM_STACK_WORKAROUND=0 R_DONT_USE_TK=true LC_CTYPE=en_US.utf8 $RBUILD/bin/R -d "valgrind --suppressions=$RSRC/r-valgrind.supp --track-origins=yes" --no-restore --no-save
 
+    RJAVA_JVM_STACK_WORKAROUND=0 R_DONT_USE_TK=true LC_CTYPE=en_US.utf8 $RBUILD/bin/R -d "valgrind --track-origins=yes"
+
 See also [Ushey post][2].
 
 ## Packages:
