@@ -50,3 +50,8 @@ dSYM with:
 
     dsymutil r2c-kny4n4pt1v.so -o r2c-kny4n4pt1v.dSYM
 
+Otherwise will hit things like:
+
+    Binary file for selected symbol is expected to be here:
+
+Pointing to the so file that is indeed there.
