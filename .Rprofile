@@ -2,6 +2,7 @@ if(interactive()) {
   options(
     repos=c(CRAN="https://cran.r-project.org"),
     unitizer.state='recommended',
+    deparse.max.lines=1,
     menu.graphics=FALSE,
     help_type='html',
     warnPartialMatchArgs=TRUE,
