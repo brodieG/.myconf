@@ -7,7 +7,7 @@
 # CFLAGS += -fno-common -std=gnu17 -pedantic -Wall -emit-llvm -S
 # CFLAGS += -fno-common -std=gnu17 -pedantic -Wall -emit-llvm -S -mllvm --x86-asm-syntax=intel
 # CFLAGS += -fno-common -std=c17 -pedantic -Wall -Wextra -Wstrict-prototypes
-CFLAGS += -fno-common -std=c17 -pedantic -Wall -Wextra -Wstrict-prototypes
+CFLAGS += -fno-common -std=c17 -pedantic -Wall -Wextra -Wstrict-prototypes -Wformat
 
 # # Output assembler in intel syntax
 # CFLAGS += -S -masm=intel -O0

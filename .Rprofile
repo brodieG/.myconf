@@ -9,6 +9,8 @@ if(interactive()) {
     warnPartialMatchAttr=TRUE,
     warnPartialMatchDollar=TRUE,
     blogdown.ext='.Rmd',
+    blogdown.method='html',
+    blogdown.hugo.version = "0.118.2",
     blogdown.hugo.server = c('-D', '-F', '--disableLiveReload'),
     blogdown.new_bundle = TRUE
   )
