@@ -1,3 +1,4 @@
+export HISTCONTROL=ignorespace:ignoredups
 
 alias rm='rm -i'
 alias vimr='vim -R -'
