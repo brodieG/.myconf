@@ -1,4 +1,25 @@
+# Multi-user
+
+https://github.com/orgs/Homebrew/discussions/5480
+
+Leads to using home brew with `sudo -u hb brew ...` but not clear if that means
+the installed stuff also needs to be used that way?
+
+Some clarification of what is meant:
+
+https://www.codejam.info/2021/11/homebrew-multi-user.html
+
+Seems like things are globally installed so should be usable by everyone (they
+are, we tested by installing b2 cli app from Brodie and running it from the main
+account).
+
 # Homebrew installation notes
+
+Had to sudo a couple of zsh folders for the backblaze b2 cli to intall.
+
+# Homebrew installation notes (very old, predates apple silicon)
+
+> These instructions are probably invalid now.
 
 Main problem is that we need r+w for or user to /usr/local/bin and other places,
 but that conflicts both with multi-user machines as well as with backup and
